@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+    <!--START CONTRACTOR VIEWS-->
+        <!--CONTRACTOR FORM VIEW-->
+        <record model="ir.ui.view" id="view_form_contract">
+            <field name="name">Contract</field>
+            <field name="model">budget.contract</field>
+            <field name="arch" type="xml">
+                <form string="Contract">
+                <header>
+                    <button
+                        string="Close Contract"
+                        name="set2close"
+                        type="object"
+                        states="active,closed" />
+                    <field name="state" widget="statusbar"/>
+                </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="contract_no" default_focus="1" placeholder="Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="contractor_id"/>
+                                <field name="change_type"/>
+                                <field name="version"/>
+                            </group>
+                            <group>
+                                <field name="sicet_type"/>
+                                <field name="sub_sicet_type"/>
+                                <field name="system_type"/>
+                                <field name="network_type"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="service_amount"/>
+                                <field name="material_amount"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="remarks"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--CONTRACTOR TREE VIEW-->
+        <record model="ir.ui.view" id="view_tree_contract">
+            <field name="name">Contract</field>
+            <field name="model">budget.contract</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="contract_no"/>
+                    <field name="change_type"/>
+                    <field name="version"/>
+                    <field name="sicet_type"/>
+                    <field name="sub_sicet_type"/>
+                    <field name="system_type"/>
+                    <field name="network_type"/>
+                    <field name="amount"/>
+                    <!--<field name="service_amount"/>-->
+                    <!--<field name="material_amount"/>-->
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="state"/>
+                    <!--<field name="remarks"/>-->
+                </tree>
+             </field>
+        </record>
+    <!--END CONTRACTOR VIEWS-->
+
+    <!--START ACTIONS-->
+        <!--Contract Action-->
+        <record model="ir.actions.act_window" id="action_contract">
+            <field name="name">Contract</field>
+            <field name="res_model">budget.contract</field>
+        </record>
+
+        <!--Override View-->
+        <!--Override Default View-->
+        <record model="ir.actions.act_window.view" id="action_contract_view_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_form_contract"/>
+            <field name="act_window_id" ref="action_contract"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_contract_view_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_tree_contract"/>
+            <field name="act_window_id" ref="action_contract"/>
+        </record>
+    <!--END ACTIONS-->
+    </data>
+</openerp>

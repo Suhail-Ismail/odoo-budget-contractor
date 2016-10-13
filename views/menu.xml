@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+    <!--MENU PARENT-->
+    <menuitem
+        id="menu_contractor_top"
+        name="Contract"
+        sequence="4"/>
+    <!--END MENU PARENT-->
+
+    <!--MENU CHILD-->
+    <menuitem
+        id="menu_contractor_top_left"
+        name="Contractor"
+        sequence="1"
+        parent="menu_contractor_top"
+        action="action_contractor"/>
+    <menuitem
+        id="menu_contract_top_left"
+        name="Contract"
+        sequence="2"
+        parent="menu_contractor_top"
+        action="action_contract"/>
+    <!--END MENU CHILD-->
+
+    </data>
+</openerp>
