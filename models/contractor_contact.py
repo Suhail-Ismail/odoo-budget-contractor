@@ -9,7 +9,7 @@ class ContractorContact(models.Model):
 
     # BASIC FIELDS
     # ----------------------------------------------------------
-    is_budget_contractor_contact = fields.Boolean(string="Is Contractor")
+    is_budget_contractor_contact = fields.Boolean(string="Is Contractor Contact")
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
