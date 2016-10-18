@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_budget_contractor_budget_contractor,budget_contractor.budget_contractor,model_budget_contractor_budget_contractor,,1,0,0,0
+access_budget_contractor_contract_user,budget_contractor.contract,model_budget_contract,group_contractor_user,1,1,1,0
+access_budget_contractor_contract_manager,budget_contractor.contract,model_budget_contract,group_contractor_manager,1,1,1,1

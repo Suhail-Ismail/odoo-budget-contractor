@@ -27,7 +27,8 @@
                         </div>
                         <group>
                             <group>
-                                <field name="contractor_id"/>
+                                <field name="contractor_id"
+                                       context="{'form_view_ref': 'budget_contractor.view_form_contractor'}"/>
                                 <field name="change_type"/>
                                 <field name="version"/>
                             </group>

@@ -20,6 +20,9 @@ Contractor Management
     'category': 'TBPC Budget',
     'depends': ['base','mail'],
     'data': [
+        'security/budget_contractor.xml',
+        'security/ir.model.access.csv',
+
         'views/contractor.xml',
         'views/contract.xml',
         'views/menu.xml',
