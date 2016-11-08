@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import contractor, contractor_contact, contract
+from . import contractor, contractor_contact, contract, region, section

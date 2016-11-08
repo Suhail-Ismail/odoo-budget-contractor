@@ -18,12 +18,16 @@ Contractor Management
     'author': "Marc Philippe de Villeres",
     'website': "https://github.com/mpdevilleres",
     'category': 'TBPC Budget',
-    'depends': ['base','mail'],
+    'depends': [
+        'base',
+        'mail',
+    ],
     'data': [
         'security/budget_contractor.xml',
         'security/ir.model.access.csv',
 
         'views/contractor.xml',
+        'views/section.xml',
         'views/contract.xml',
         'views/menu.xml',
     ],

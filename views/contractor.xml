@@ -19,6 +19,7 @@
                         </div>
                         <group>
                             <group>
+                                <field name="alias" required="1"/>
                                 <label for="street" string="Address"/>
                                 <div class="o_address_format">
                                     <field name="street" placeholder="Street..." class="o_address_street"/>
@@ -32,7 +33,7 @@
                         </group>
                         <notebook colspan="4">
                             <page string="Contacts">
-                                <field name="contact_ids" mode="kanban">
+                                <field name="contractor_contact_ids" mode="kanban">
                                     <kanban>
                                         <field name="name"/>
                                         <field name="function"/>
@@ -73,7 +74,7 @@
                                 </field>
                             </page>
                             <page string="Contracts">
-                                <field name="contract_ids"/>
+                                <field name="contractor_contract_ids"/>
                             </page>
                         </notebook>
                     </sheet>

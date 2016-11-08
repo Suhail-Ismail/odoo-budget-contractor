@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 class ContractorContact(models.Model):
     _inherit = 'res.partner'
@@ -13,4 +13,4 @@ class ContractorContact(models.Model):
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    contractor_id = fields.Many2one('res.partner', string='Contractor')
+    contractor_contact_contractor_id = fields.Many2one('res.partner', string='Contractor')

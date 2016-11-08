@@ -14,7 +14,7 @@
                         string="Close Contract"
                         name="set2close"
                         type="object"
-                        states="active,closed" />
+                        states="active" />
                     <field name="state" widget="statusbar"/>
                 </header>
                     <sheet>
@@ -22,21 +22,23 @@
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="contract_no" default_focus="1" placeholder="Name"/>
+                                <field name="contract_ref" readonly='1' default_focus="1" placeholder="Contract Reference"/>
                             </h1>
                         </div>
                         <group>
                             <group>
+                                <field name="section_id"
+                                       context="{'form_view_ref': 'budget_contractor.view_form_section',
+                                                 'default_is_budget_section': True}"/>
                                 <field name="contractor_id"
-                                       context="{'form_view_ref': 'budget_contractor.view_form_contractor'}"/>
-                                <field name="change_type"/>
-                                <field name="version"/>
+                                       context="{'form_view_ref': 'budget_contractor.view_form_contractor',
+                                                 'default_is_budget_contractor': True}}"/>
                             </group>
                             <group>
+                                <field name="contract_no"/>
+                                <field name="change_type"/>
+                                <field name="version"/>
                                 <field name="sicet_type"/>
-                                <field name="sub_sicet_type"/>
-                                <field name="system_type"/>
-                                <field name="network_type"/>
                             </group>
                         </group>
                         <group>
@@ -46,7 +48,8 @@
                                 <field name="material_amount"/>
                             </group>
                             <group>
-                                <field name="start_date"/>
+                                <field name="sign_date"/>
+                                <field name="commencement_date"/>
                                 <field name="end_date"/>
                             </group>
                         </group>
@@ -64,17 +67,17 @@
             <field name="model">budget.contract</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="contract_no"/>
-                    <field name="change_type"/>
-                    <field name="version"/>
+                    <field name="contract_ref"/>
+                    <!--<field name="change_type"/>-->
+                    <!--<field name="version"/>-->
                     <field name="sicet_type"/>
-                    <field name="sub_sicet_type"/>
-                    <field name="system_type"/>
-                    <field name="network_type"/>
+                    <!--<field name="sub_sicet_type"/>-->
+                    <!--<field name="system_type"/>-->
+                    <!--<field name="network_type"/>-->
                     <field name="amount"/>
                     <!--<field name="service_amount"/>-->
                     <!--<field name="material_amount"/>-->
-                    <field name="start_date"/>
+                    <field name="commencement_date"/>
                     <field name="end_date"/>
                     <field name="state"/>
                     <!--<field name="remarks"/>-->
