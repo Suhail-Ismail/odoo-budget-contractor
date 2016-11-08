@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import re
+
+from odoo.exceptions import ValidationError
+
 
 class Contractor(models.Model):
     _inherit = 'res.partner'
@@ -28,8 +32,24 @@ class Contractor(models.Model):
                                   'contractor_id',
                                   string="Contracts")
 
-    # COMPUTE FIELDS
+    # CONSTRAINS
     # ----------------------------------------------------------
+    # TODO: NEED TO CHECK INDIVIDUAL UNIQUENESS FOR NAME AND ALIAS
+    # TODO: DISALLOW SPACE IN ALIAS
+    @api.one
+    @api.constrains('alias')
+    def _check_alias(self):
+        if re.search('\s', unicode(self.alias)):
+            raise ValidationError('spaces are not allowed in ALIAS')
+
     _sql_constraints = [
-        ('name_alias_uniq', 'unique(name, alias)', 'Name and Alias Must be Unique'),
+        ('name_uniq', 'unique(name)', 'Name Must be Unique'),
+        ('alias_uniq', 'unique(alias)', 'Alias Must be Unique'),
     ]
+
+    # MISC METHODS
+    # ----------------------------------------------------------
+    @api.onchange('alias')
+    def _upper_alias(self):
+        if self.alias:
+            self.alias = self.alias.upper()

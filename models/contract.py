@@ -96,4 +96,3 @@ class Contract(models.Model):
     @api.one
     def set2close(self):
         self.state = 'closed'
-
