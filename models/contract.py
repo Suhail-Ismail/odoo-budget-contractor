@@ -65,7 +65,13 @@ class Contract(models.Model):
     company_currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor','=', True)])
-    section_id = fields.Many2one('res.partner', string='Section', domain=[('is_budget_section','=', True)])
+    section_ids = fields.Many2many('res.partner',
+                                'section_contract_rel',
+                                'contract_id',
+                                'section_id',
+                                string="Sections",
+                                domain="[('is_budget_section','=',True)]"
+                                )
 
     # COMPUTE FIELDS
     # ----------------------------------------------------------

@@ -21,14 +21,14 @@ Contractor Management
     'depends': [
         'base',
         'mail',
+        'budget_enduser'
     ],
     'data': [
         'security/budget_contractor.xml',
         'security/ir.model.access.csv',
 
-        'views/contractor.xml',
-        'views/section.xml',
         'views/contract.xml',
+        'views/contractor.xml',
         'views/menu.xml',
     ],
     'demo': [

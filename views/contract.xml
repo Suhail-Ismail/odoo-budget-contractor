@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--TODO MAKE FILTERING ACCORDING TO CONTRACTOR WHEN BUTTON CLICK-->
 <openerp>
     <data>
     <!--START CONTRACTOR VIEWS-->
@@ -27,9 +27,11 @@
                         </div>
                         <group>
                             <group>
-                                <field name="section_id"
-                                       context="{'form_view_ref': 'budget_contractor.view_form_section',
-                                                 'default_is_budget_section': True}"/>
+                                <field name="section_ids"
+                                       widget="many2many_tags"
+                                       context="{'form_view_ref': 'budget_enduser.view_form_section',
+                                                 'default_is_budget_section': True}}"
+                                />
                                 <field name="contractor_id"
                                        context="{'form_view_ref': 'budget_contractor.view_form_contractor',
                                                  'default_is_budget_contractor': True}}"/>
