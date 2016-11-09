@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO MAKE FILTERING ACCORDING TO CONTRACTOR WHEN BUTTON CLICK-->
 <openerp>
     <data>
     <!--START CONTRACTOR VIEWS-->
@@ -87,12 +86,38 @@
              </field>
         </record>
     <!--END CONTRACTOR VIEWS-->
+    <!--SEARCH VIEWS-->
+        <record model="ir.ui.view" id="view_search_contract">
+            <field name="name">budget.contract.search</field>
+            <field name="model">budget.contract</field>
+            <field name="arch" type="xml">
+                <search string="Contracts">
+                    <!--<field name="id" string="Registration ID"/>-->
+                    <field name="contract_ref" string="Contract Reference"/>
+                    <field name="contractor_id" string="Contractor"/>
+                    <!--<filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>-->
+                    <!--<filter string="Expected" name="expected" domain="[('state', 'in', ['draft', 'open', 'done'])]"/>-->
+                    <!--<separator/>-->
+                    <!--<field name="event_id"/>-->
+                    <!--<field name="partner_id"/>-->
+                    <!--<group expand="0" string="Group By">-->
+                        <!--<filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>-->
+                        <!--<filter string="Event" name="group_event" domain="[]" context="{'group_by':'event_id'}"/>-->
+                        <!--<filter string="Status" domain="[]" context="{'group_by':'state'}"/>-->
+                        <!--<filter string="Registration Day" domain="[]" context="{'group_by': 'create_date:day'}"/>-->
+                        <!--<filter string="Registration Month" domain="[]" context="{'group_by': 'create_date:month'}"/>-->
+                   <!--</group>-->
+                </search>
+            </field>
+        </record>
+    <!--END SEARCH VIEWS-->
 
     <!--START ACTIONS-->
         <!--Contract Action-->
         <record model="ir.actions.act_window" id="action_contract">
             <field name="name">Contract</field>
             <field name="res_model">budget.contract</field>
+            <field name="search_view_id" ref="view_search_contract"/>
         </record>
 
         <!--Override View-->
@@ -103,6 +128,7 @@
             <field name="view_id" ref="view_form_contract"/>
             <field name="act_window_id" ref="action_contract"/>
         </record>
+
         <record model="ir.actions.act_window.view" id="action_contract_view_tree">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>

@@ -28,6 +28,15 @@ class Contractor(models.Model):
 
     # CONSTRAINS
     # ----------------------------------------------------------
+    total_contract = fields.Integer(compute='_compute_total_contract', string="Total Contracts")
+
+    @api.one
+    @api.depends('contractor_contract_ids')
+    def _compute_total_contract(self):
+        self.total_contract = len(self.contractor_contract_ids)
+
+    # CONSTRAINS
+    # ----------------------------------------------------------
     @api.one
     @api.constrains('alias')
     def _check_alias(self):

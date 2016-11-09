@@ -11,17 +11,17 @@
 
     <!--MENU CHILD-->
     <menuitem
-        id="menu_contract_top_left"
-        name="Contract"
-        sequence="1"
-        parent="menu_contractor_top"
-        action="action_contract"/>
-    <menuitem
         id="menu_contractor_top_left"
         name="Contractor"
-        sequence="2"
+        sequence="1"
         parent="menu_contractor_top"
         action="action_contractor"/>
+    <menuitem
+        id="menu_contract_top_left"
+        name="Contract"
+        sequence="2"
+        parent="menu_contractor_top"
+        action="action_contract"/>
     <!--END MENU CHILD-->
     </data>
 </openerp>

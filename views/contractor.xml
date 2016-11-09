@@ -15,8 +15,10 @@
                                 type="action"
                                 class="oe_stat_button oe_event_attendee_button"
                                 icon="fa-users"
-                                help="Register with this event">
-                                <!--<field name="seats_expected" widget="statinfo" string="Attendees"/>-->
+                                help="Register with this event"
+                                context="{'search_default_contractor_id': id}"
+                            >
+                                <field name="total_contract" widget="statinfo" string="Contracts"/>
                             </button>
                         </div>
                         <div class="oe_title">
