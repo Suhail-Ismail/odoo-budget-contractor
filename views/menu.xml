@@ -6,7 +6,7 @@
     <menuitem
         id="menu_contractor_top"
         name="Contracts"
-        sequence="2"/>
+        sequence="3"/>
     <!--END MENU PARENT-->
 
     <!--MENU CHILD-->

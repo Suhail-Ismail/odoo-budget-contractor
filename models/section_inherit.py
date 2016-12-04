@@ -7,6 +7,6 @@ class Section(models.Model):
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    section_contract_ids = fields.Many2many('budget.contract',
+    section_contract_ids = fields.Many2many('budget.contractor.contract',
                                             'section_contract_rel',
                                             'section_id', 'contract_id', string="Contracts")

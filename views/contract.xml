@@ -5,7 +5,7 @@
         <!--CONTRACTOR FORM VIEW-->
         <record model="ir.ui.view" id="view_form_contract">
             <field name="name">Contract</field>
-            <field name="model">budget.contract</field>
+            <field name="model">budget.contractor.contract</field>
             <field name="arch" type="xml">
                 <form string="Contract">
                 <header>
@@ -34,6 +34,8 @@
                                 <field name="contractor_id"
                                        context="{'form_view_ref': 'budget_contractor.view_form_contractor',
                                                  'default_is_budget_contractor': True}}"/>
+                                <field name="budget_id"/>
+
                             </group>
                             <group>
                                 <field name="contract_no"/>
@@ -65,23 +67,15 @@
         <!--CONTRACTOR TREE VIEW-->
         <record model="ir.ui.view" id="view_tree_contract">
             <field name="name">Contract</field>
-            <field name="model">budget.contract</field>
+            <field name="model">budget.contractor.contract</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="contract_ref"/>
-                    <!--<field name="change_type"/>-->
-                    <!--<field name="version"/>-->
                     <field name="sicet_type"/>
-                    <!--<field name="sub_sicet_type"/>-->
-                    <!--<field name="system_type"/>-->
-                    <!--<field name="network_type"/>-->
                     <field name="amount"/>
-                    <!--<field name="service_amount"/>-->
-                    <!--<field name="material_amount"/>-->
                     <field name="commencement_date"/>
                     <field name="end_date"/>
                     <field name="state"/>
-                    <!--<field name="remarks"/>-->
                 </tree>
              </field>
         </record>
@@ -89,24 +83,11 @@
     <!--SEARCH VIEWS-->
         <record model="ir.ui.view" id="view_search_contract">
             <field name="name">budget.contract.search</field>
-            <field name="model">budget.contract</field>
+            <field name="model">budget.contractor.contract</field>
             <field name="arch" type="xml">
                 <search string="Contracts">
-                    <!--<field name="id" string="Registration ID"/>-->
                     <field name="contract_ref" string="Contract Reference"/>
                     <field name="contractor_id" string="Contractor"/>
-                    <!--<filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>-->
-                    <!--<filter string="Expected" name="expected" domain="[('state', 'in', ['draft', 'open', 'done'])]"/>-->
-                    <!--<separator/>-->
-                    <!--<field name="event_id"/>-->
-                    <!--<field name="partner_id"/>-->
-                    <!--<group expand="0" string="Group By">-->
-                        <!--<filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>-->
-                        <!--<filter string="Event" name="group_event" domain="[]" context="{'group_by':'event_id'}"/>-->
-                        <!--<filter string="Status" domain="[]" context="{'group_by':'state'}"/>-->
-                        <!--<filter string="Registration Day" domain="[]" context="{'group_by': 'create_date:day'}"/>-->
-                        <!--<filter string="Registration Month" domain="[]" context="{'group_by': 'create_date:month'}"/>-->
-                   <!--</group>-->
                 </search>
             </field>
         </record>
@@ -116,7 +97,7 @@
         <!--Contract Action-->
         <record model="ir.actions.act_window" id="action_contract">
             <field name="name">Contract</field>
-            <field name="res_model">budget.contract</field>
+            <field name="res_model">budget.contractor.contract</field>
             <field name="search_view_id" ref="view_search_contract"/>
         </record>
 

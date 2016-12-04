@@ -3,7 +3,7 @@
     'name': "Contractor",
     'version': '0.1',
     'summary': 'Contractor Management',
-    'sequence': 2,
+    'sequence': 3,
     'description': """
 Odoo Module
 ===========
@@ -19,17 +19,20 @@ Contractor Management
     'website': "https://github.com/mpdevilleres",
     'category': 'TBPC Budget',
     'depends': [
-        'base',
-        'mail',
-        'budget_enduser'
+        'budget_enduser',
+        'budget_core'
     ],
     'data': [
+        # SECURITY
         'security/budget_contractor.xml',
         'security/ir.model.access.csv',
 
         'views/contract.xml',
         'views/contractor.xml',
         'views/menu.xml',
+
+        # VIEW INHERIT
+        'views/budget_inherit.xml'
     ],
     'demo': [
         'demo/res.partner.csv',

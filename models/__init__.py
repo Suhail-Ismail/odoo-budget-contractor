@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import contractor, contractor_contact, contract
-
 # INHERITANCES
-from . import section_inherit
+from . import section_inherit, budget_inherit
+
+from . import contractor, contractor_contact, contract

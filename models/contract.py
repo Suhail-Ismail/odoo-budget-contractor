@@ -1,28 +1,9 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
-from .utils import choices_tuple
-
-# MISC FUNCTIONS
-# --------------------------------------------------------------------------------------------------
-
-def int_to_roman(input):
-    """ Convert an integer to a Roman numeral. """
-
-    if not isinstance(input, int):
-        raise TypeError("expected integer, got %s" % type(input))
-    if not 0 < input < 4000:
-        raise ValueError("Argument must be between 1 and 3999")
-    ints = (1000, 900,  500, 400, 100,  90, 50,  40, 10,  9,   5,  4,   1)
-    nums = ('M',  'CM', 'D', 'CD','C', 'XC','L','XL','X','IX','V','IV','I')
-    result = []
-    for i in range(len(ints)):
-        count = int(input / ints[i])
-        result.append(nums[i] * count)
-        input -= ints[i] * count
-    return ''.join(result)
+from odoo.addons.budget_core.models.utilities import choices_tuple, int_to_roman
 
 class Contract(models.Model):
-    _name = 'budget.contract'
+    _name = 'budget.contractor.contract'
     _rec_name = 'contract_ref'
     _description = 'Contract'
 
@@ -64,6 +45,7 @@ class Contract(models.Model):
     # ----------------------------------------------------------
     company_currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
+    budget_id = fields.Many2one('budget.core.budget', string='Budget No')
     contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor','=', True)])
     section_ids = fields.Many2many('res.partner',
                                 'section_contract_rel',
@@ -82,12 +64,13 @@ class Contract(models.Model):
     @api.one
     @api.depends('contract_no', 'change_type', 'version', 'contractor_id.alias')
     def _compute_contract_ref(self):
+        change_type = '' if self.change_type == 'principal' and not self.change_type else self.change_type
         self.contract_ref = "{}/{} {} {}".format(self.contract_no or '',
                                                  self.contractor_id.alias or '',
-                                                 self.change_type or '',
+                                                 change_type,
                                                  self.version or '').upper()
 
-    # COMPUTE FIELDS
+    # CONSTRAINS FIELDS
     # ----------------------------------------------------------
     _sql_constraints = [
         ('contract_ref_uniq', 'unique(contract_ref)', 'Already Exist'),
