@@ -10,7 +10,7 @@
             <field name="inherit_id" ref="budget_core.view_form_budget"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='expenditure_amount']" position="after">
+                <xpath expr="//field[@name='initial_expenditure_amount']" position="before">
                         <field name="total_contracted_amount" readonly="1"/>
                 </xpath>
 
