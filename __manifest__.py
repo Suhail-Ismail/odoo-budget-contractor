@@ -3,7 +3,7 @@
     'name': "Contractor",
     'version': '0.1',
     'summary': 'Contractor Management',
-    'sequence': 3,
+    'sequence': 2,
     'description': """
 Odoo Module
 ===========
