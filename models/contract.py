@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
-from odoo.addons.budget_core.models.utilities import choices_tuple, int_to_roman
+from odoo.addons.budget_utilities.models.utilities import choices_tuple, int_to_roman
+
 
 class Contract(models.Model):
     _name = 'budget.contractor.contract'
@@ -9,32 +10,30 @@ class Contract(models.Model):
 
     # CHOICES
     # ----------------------------------------------------------
+    BUDGET_TYPES = choices_tuple(['capex', 'opex'])
     CATEGORIES = choices_tuple(['consultancy', 'license', 'service', 'supply', 'support', 'turnkey'])
     STATES = choices_tuple(['active', 'closed'], is_sorted=False)
     CHANGE_TYPES = choices_tuple(['principal', 'amendment', 'addendum'], is_sorted=False)
     VERSIONS = [(i, '%d - %s' % (i, int_to_roman(i))) for i in range(1, 100)]
     SICET_TYPES = choices_tuple(['2a', 'a2/2b', '2b', '3'], is_sorted=False)
-    SUB_SICET_TYPES = choices_tuple(['test1', 'test2', 'test3'], is_sorted=False)
-    SYSTEM_TYPES = choices_tuple(['test1', 'test2', 'test3'], is_sorted=False)
-    NETWORK_TYPES = choices_tuple(['test1', 'test2', 'test3'], is_sorted=False)
 
     # BASIC FIELDS
     # ----------------------------------------------------------
-    state = fields.Selection(STATES, default='active')
+    state = fields.Selection(string='State', selection=STATES, default='active')
+
+    is_contract = fields.Boolean(string='Is Contract')
 
     contract_no = fields.Char(string="Contract No")
-    sicet_type = fields.Selection(SICET_TYPES)
-    change_type = fields.Selection(CHANGE_TYPES, default='principal')
-    version = fields.Selection(VERSIONS)
+    budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
+    sicet_type = fields.Selection(string='Sicet Type', selection=SICET_TYPES)
+    change_type = fields.Selection(string='Change Type', selection=CHANGE_TYPES, default='principal')
+    version = fields.Selection(string='Version', selection=VERSIONS)
 
     amount = fields.Monetary(string='Contract Amount', currency_field='company_currency_id')
     service_amount = fields.Monetary(string='Service Amount', currency_field='company_currency_id')
     material_amount = fields.Monetary(string='Material Amount', currency_field='company_currency_id')
 
-    category = fields.Selection(CATEGORIES)
-    # sub_sicet_type = fields.Selection(SUB_SICET_TYPES)
-    # system_type = fields.Selection(SYSTEM_TYPES)
-    # network_type = fields.Selection(NETWORK_TYPES)
+    category = fields.Selection(string='Category', selection=CATEGORIES)
 
     sign_date = fields.Date(string='Sign Date')
     commencement_date = fields.Date(string='Commencement Date')
@@ -45,15 +44,20 @@ class Contract(models.Model):
     # ----------------------------------------------------------
     company_currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
-    budget_id = fields.Many2one('budget.core.budget', string='Budget No')
-    contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor','=', True)])
+    contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor', '=', True)])
+    rfs_ids = fields.One2many('budget.contractor.rfs',
+                              'contract_id',
+                              string="Ready for Service Certificates")
+    milestone_ids = fields.One2many('budget.contractor.milestone',
+                                    'contract_id',
+                                    string="Milestones")
     section_ids = fields.Many2many('res.partner',
-                                'section_contract_rel',
-                                'contract_id',
-                                'section_id',
-                                string="Sections",
-                                domain="[('is_budget_section','=',True)]"
-                                )
+                                   'section_contract_rel',
+                                   'contract_id',
+                                   'section_id',
+                                   string="Sections",
+                                   domain="[('is_budget_section','=',True)]"
+                                   )
 
     # COMPUTE FIELDS
     # ----------------------------------------------------------
@@ -64,7 +68,7 @@ class Contract(models.Model):
     @api.one
     @api.depends('contract_no', 'change_type', 'version', 'contractor_id.alias')
     def _compute_contract_ref(self):
-        change_type = '' if self.change_type == 'principal' and not self.change_type else self.change_type
+        change_type = '' if self.change_type == 'principal' else self.change_type
         self.contract_ref = "{}/{} {} {}".format(self.contract_no or '',
                                                  self.contractor_id.alias or '',
                                                  change_type,

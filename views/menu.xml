@@ -22,6 +22,18 @@
         sequence="2"
         parent="menu_contractor_top"
         action="action_contract"/>
+    <menuitem
+        id="menu_rfs_top_left"
+        name="Ready for Service"
+        sequence="3"
+        parent="menu_contractor_top"
+        action="action_rfs"/>
+    <menuitem
+        id="menu_milestone_top_left"
+        name="Milestone"
+        sequence="4"
+        parent="menu_contractor_top"
+        action="action_milestone"/>
     <!--END MENU CHILD-->
     </data>
 </openerp>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--START VIEWS-->
+        <!--START FORM VIEW-->
+        <record model="ir.ui.view" id="view_form_rfs">
+            <field name="name">budget.contractor.rfs.form</field>
+            <field name="model">budget.contractor.rfs</field>
+            <field name="arch" type="xml">
+                <form string="Ready For Service Certificate">
+                    <header>
+                        <!--<button-->
+                                <!--string="Close Contract"-->
+                                <!--name="set2close"-->
+                                <!--type="object"-->
+                                <!--states="active"/>-->
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="reference_no" default_focus="1"
+                                       placeholder="Reference"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="contract_id"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--END FORM VIEW-->
+
+        <!--START TREE VIEW-->
+        <record model="ir.ui.view" id="view_tree_rfs">
+            <field name="name">budget.contractor.rfs.tree</field>
+            <field name="model">budget.contractor.rfs</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="contract_id"/>
+                    <field name="reference_no"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        <!--END TREE VIEW-->
+
+        <!--START SEARCH VIEW-->
+        <record model="ir.ui.view" id="view_search_rfs">
+            <field name="name">budget.contractor.rfs.search</field>
+            <field name="model">budget.contractor.rfs</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="reference_no"/>
+                    <field name="contract_id"/>
+                </search>
+            </field>
+        </record>
+        <!--END SEARCH VIEW-->
+
+        <!--START ACTION-->
+        <record model="ir.actions.act_window" id="action_rfs">
+            <field name="name">Contract</field>
+            <field name="res_model">budget.contractor.rfs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="view_tree_rfs"/>
+            <field name="context">
+                {'form_view_ref': 'budget_contractor.view_form_rfs'}
+            </field>
+
+        </record>
+        <!--END ACTION-->
+    </data>
+</openerp>

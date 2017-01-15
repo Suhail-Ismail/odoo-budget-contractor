@@ -2,8 +2,8 @@
 
 <openerp>
     <data>
-    <!--START CONTRACTOR VIEWS-->
-        <!--CONTRACTOR FORM VIEW-->
+        <!--START VIEWS-->
+        <!--START FORM VIEW-->
         <record model="ir.ui.view" id="view_form_contractor">
             <field name="name">Contractor</field>
             <field name="model">res.partner</field>
@@ -11,14 +11,8 @@
                 <form string="Contractor">
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="%(budget_contractor.action_contract)d"
-                                type="action"
-                                class="oe_stat_button oe_event_attendee_button"
-                                icon="fa-users"
-                                help="Register with this event"
-                                context="{'search_default_contractor_id': id}"
-                            >
-                                <field name="total_contract" widget="statinfo" string="Contracts"/>
+                            <button class="oe_stat_button" icon="fa-users">
+                                <field name="contract_count" widget="statinfo" string="Contracts"/>
                             </button>
                         </div>
                         <div class="oe_title">
@@ -55,11 +49,23 @@
                                                         <img t-att-src="_s + &quot;/base/static/src/img/avatar.png&quot;"/>
                                                     </div>
                                                     <div class="oe_kanban_details">
-                                                        <div><strong><field name="name"/></strong></div>
-                                                        <div><field name="email"/></div>
-                                                        <div><field name="function"/></div>
-                                                        <div><field name="phone"/></div>
-                                                        <div><field name="mobile"/></div>
+                                                        <div>
+                                                            <strong>
+                                                                <field name="name"/>
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            <field name="email"/>
+                                                        </div>
+                                                        <div>
+                                                            <field name="function"/>
+                                                        </div>
+                                                        <div>
+                                                            <field name="phone"/>
+                                                        </div>
+                                                        <div>
+                                                            <field name="mobile"/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </t>
@@ -83,14 +89,18 @@
                                 </field>
                             </page>
                             <page string="Contracts">
-                                <field name="contractor_contract_ids"/>
+                                <field name="contractor_contract_ids"
+                                       context="{'default_contractor_id': id}"
+                                />
                             </page>
                         </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
-        <!--CONTRACTOR KANBAN VIEW-->
+        <!--END FORM VIEW-->
+
+        <!--START KANBAN VIEW-->
         <record model="ir.ui.view" id="view_kanban_contractor">
             <field name="name">Contractor</field>
             <field name="model">res.partner</field>
@@ -105,45 +115,54 @@
                                     <img t-att-src="_s + &quot;/base/static/src/img/company_image.png&quot;"/>
                                 </div>
                                 <div class="oe_kanban_details">
-                                    <strong class="oe_partner_heading"><field name="name"/></strong>
+                                    <strong class="oe_partner_heading">
+                                        <field name="name"/>
+                                    </strong>
                                     <div class="oe_kanban_partner_links"/>
-                                    <div><field name="website"/></div>
+                                    <div>
+                                        <field name="website"/>
+                                    </div>
                                     <!--<div><field name="street"/></div>-->
                                     <!--<div><field name="street2"/></div>-->
-                                    <div><field name="city"/></div>
+                                    <div>
+                                        <field name="city"/>
+                                    </div>
                                 </div>
                             </div>
                         </t>
                     </templates>
                 </kanban>
             </field>
-          </record>
-    <!--END CONTRACTOR VIEWS-->
+        </record>
+        <!--END KANBAN VIEW-->
 
-    <!--START ACTIONS-->
-        <!--Contractor Action-->
+        <!--START SEARCH-->
+        <record model="ir.ui.view" id="view_search_contractor">
+            <field name="name">Budget Search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <!--END SEARCH-->
+
+        <!--START ACTION-->
         <record model="ir.actions.act_window" id="action_contractor">
             <field name="name">Contractor</field>
             <field name="res_model">res.partner</field>
-            <field name="domain">[('is_budget_contractor','=',True)]</field>
-            <field name="context">{'default_is_budget_contractor': True}</field>
-        </record>
-
-        <!--Override View-->
-        <!--Override Default View-->
-        <record model="ir.actions.act_window.view" id="action_contractor_view_kanban">
-            <field name="sequence" eval="1"/>
-            <field name="view_mode">kanban</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form,pivot</field>
             <field name="view_id" ref="view_kanban_contractor"/>
-            <field name="act_window_id" ref="action_contractor"/>
+            <field name="search_view_id" ref="view_search_contractor"/>
+            <field name="domain">[('is_budget_contractor','=',True)]</field>
+            <field name="context">
+                {'form_view_ref': 'budget_contractor.view_form_contractor',
+                'default_is_budget_contractor': True}
+            </field>
         </record>
+        <!--END ACTION-->
 
-        <record model="ir.actions.act_window.view" id="action_contractor_view_form">
-            <field name="sequence" eval="2"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_form_contractor"/>
-            <field name="act_window_id" ref="action_contractor"/>
-        </record>
-    <!--END ACTIONS-->
     </data>
 </openerp>

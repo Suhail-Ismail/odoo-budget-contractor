@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# INHERITANCES
-from . import section_inherit, budget_inherit
+# INHERITANCE MODELS
+# ----------------------------------------------------------
+from . import section_inherit
 
-from . import contractor, contractor_contact, contract
+# BASIC MODELS
+# ----------------------------------------------------------
+from . import contractor, contractor_contact, contract, \
+    milestone, rfs

@@ -10,28 +10,28 @@ class Contractor(models.Model):
     _inherit = 'res.partner'
 
     # BASIC FIELDS
+    # alias exist already
     # ----------------------------------------------------------
     is_budget_contractor = fields.Boolean(string="Is Contractor")
-    alias = fields.Char(string="Alias")
+
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
     contractor_contact_ids = fields.One2many('res.partner',
                                   'contractor_contact_contractor_id',
                                   string="Contractor Contacts")
-    # TODO CHECK THE POSSIBILITY OF USING THE DEFAULT CONTACT XML AND CONTACTS
     contractor_contract_ids = fields.One2many('budget.contractor.contract',
                                   'contractor_id',
                                   string="Contractor Contracts")
 
     # CONSTRAINS
     # ----------------------------------------------------------
-    total_contract = fields.Integer(compute='_compute_total_contract', string="Total Contracts")
+    contract_count = fields.Integer(compute='_compute_contract_count', string="Contract Count")
 
     @api.one
     @api.depends('contractor_contract_ids')
-    def _compute_total_contract(self):
-        self.total_contract = len(self.contractor_contract_ids)
+    def _compute_contract_count(self):
+        self.contract_count = len(self.contractor_contract_ids)
 
     # CONSTRAINS
     # ----------------------------------------------------------
@@ -42,7 +42,6 @@ class Contractor(models.Model):
             raise ValidationError('spaces are not allowed in ALIAS')
 
     _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'Name Must be Unique'),
         ('alias_uniq', 'unique(alias)', 'Alias Must be Unique'),
     ]
 

@@ -19,25 +19,29 @@ Contractor Management
     'website': "https://github.com/mpdevilleres",
     'category': 'TBPC Budget',
     'depends': [
-        'budget_enduser',
-        'budget_core'
+        'budget_utilities',
+        'budget_enduser'
     ],
     'data': [
         # SECURITY
         'security/budget_contractor.xml',
         'security/ir.model.access.csv',
 
+        # VIEW
         'views/contract.xml',
         'views/contractor.xml',
+        'views/rfs.xml',
+        'views/milestone.xml',
+
         'views/menu.xml',
 
         # VIEW INHERIT
-        'views/budget_inherit.xml'
+        'views/section_inherit.xml'
     ],
+
     'demo': [
-        'demo/res.partner.csv',
-        'demo/budget.contract.csv',
     ],
+
     'installable': True,
     'application': True,
     'auto_install': False,
