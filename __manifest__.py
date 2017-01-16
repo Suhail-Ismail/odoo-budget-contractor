@@ -43,10 +43,12 @@ Contractor Management
         'views/rfs.xml',
         'views/milestone.xml',
 
-        'views/menu.xml',
-
         # VIEW INHERIT
-        'views/section_inherit.xml'
+        'views/milestone_inherit_actual.xml',
+        'views/rfs_inherit_actual.xml',
+        'views/section_inherit.xml',
+
+        'views/menu.xml',
     ],
 
     'demo': [

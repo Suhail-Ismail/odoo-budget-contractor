@@ -34,6 +34,18 @@
         sequence="4"
         parent="menu_contractor_top"
         action="action_milestone"/>
+    <menuitem
+        id="menu_milestone_actual_top_left"
+        name="Actual Milestone"
+        sequence="5"
+        parent="menu_contractor_top"
+        action="action_actual_milestone"/>
+    <menuitem
+        id="menu_rfs_actual_top_left"
+        name="Actual Ready for Service"
+        sequence="6"
+        parent="menu_contractor_top"
+        action="action_actual_rfs"/>
     <!--END MENU CHILD-->
     </data>
 </openerp>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--INHERIT FORM VIEW-->
+        <record model="ir.ui.view" id="view_form_milestone_inherit">
+            <field name="name">budget.contractor.milestone.inherit.form</field>
+            <field name="model">budget.contractor.milestone</field>
+            <field name="inherit_id" ref="view_form_milestone"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='reference_no']" position="before">
+                    <group groups="base.group_system">
+                        <field name="is_actual"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Actuals">
+                        <field name="actual_ids"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!--START ACTION-->
+        <record model="ir.actions.act_window" id="action_actual_milestone">
+            <field name="name">Actual Milestone</field>
+            <field name="res_model">budget.contractor.milestone</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="view_tree_milestone"/>
+            <field name="domain">[('is_actual', '=', True)]</field>
+            <field name="context">
+                {'form_view_ref': 'budget_contractor.view_form_milestone_inherit',
+                 'default_is_actual': True}
+            </field>
+        </record>
+        <!--END ACTION-->
+    </data>
+</openerp>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <!--START VIEWS-->
-        <!-- FORM VIEW-->
+        <!-- INHERIT FORM VIEW-->
         <record model="ir.ui.view" id="view_form_section_inherit">
             <field name="name">res.partner.section.inherit.form</field>
             <field name="model">res.partner</field>
