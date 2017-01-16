@@ -46,6 +46,13 @@
         sequence="6"
         parent="menu_contractor_top"
         action="action_actual_rfs"/>
+    <menuitem
+        id="menu_contract_sicet_top_left"
+        name="Sicet"
+        sequence="7"
+        parent="menu_contractor_top"
+        action="action_contract_sicet"
+        groups="base.group_system"/>
     <!--END MENU CHILD-->
     </data>
 </openerp>

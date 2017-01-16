@@ -15,7 +15,7 @@ class Contract(models.Model):
     STATES = choices_tuple(['active', 'closed'], is_sorted=False)
     CHANGE_TYPES = choices_tuple(['principal', 'amendment', 'addendum'], is_sorted=False)
     VERSIONS = [(i, '%d - %s' % (i, int_to_roman(i))) for i in range(1, 100)]
-    SICET_TYPES = choices_tuple(['2a', 'a2/2b', '2b', '3'], is_sorted=False)
+    SICET_TYPES = choices_tuple(['2a', '2b', '3'], is_sorted=False)
 
     # BASIC FIELDS
     # ----------------------------------------------------------
@@ -25,7 +25,6 @@ class Contract(models.Model):
 
     contract_no = fields.Char(string="Contract No")
     budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
-    sicet_type = fields.Selection(string='Sicet Type', selection=SICET_TYPES)
     change_type = fields.Selection(string='Change Type', selection=CHANGE_TYPES, default='principal')
     version = fields.Selection(string='Version', selection=VERSIONS)
 
@@ -51,6 +50,11 @@ class Contract(models.Model):
     milestone_ids = fields.One2many('budget.contractor.milestone',
                                     'contract_id',
                                     string="Milestones")
+    sicet_type_ids = fields.Many2many('budget.contractor.contract.sicet',
+                                      'sicet_contract_rel',
+                                      'contract_id',
+                                      'sicet_id',
+                                      string='Sicet Type')
     section_ids = fields.Many2many('res.partner',
                                    'section_contract_rel',
                                    'contract_id',

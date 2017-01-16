@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--START VIEWS-->
+
+        <!--START TREE VIEW-->
+        <record model="ir.ui.view" id="view_tree_contract_sicet">
+            <field name="name">budget.contractor.contract.sicet.tree</field>
+            <field name="model">budget.contractor.contract.sicet</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!--END TREE VIEW-->
+
+        <!--START ACTION-->
+        <record model="ir.actions.act_window" id="action_contract_sicet">
+            <field name="name">Ready for Service</field>
+            <field name="res_model">budget.contractor.contract.sicet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_tree_contract_sicet"/>
+        </record>
+        <!--END ACTION-->
+    </data>
+</openerp>

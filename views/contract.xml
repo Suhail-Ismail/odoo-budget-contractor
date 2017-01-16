@@ -43,7 +43,11 @@
                                 <field name="contract_no"/>
                                 <field name="change_type"/>
                                 <field name="version"/>
-                                <field name="sicet_type"/>
+                                <field name="sicet_type_ids"
+                                       widget="many2many_tags"
+                                       options="{'no_quick_create': True,
+                                                 'no_create_edit': True}"
+                                />
                             </group>
                         </group>
                         <group>
@@ -86,7 +90,8 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="contract_ref"/>
-                    <field name="sicet_type"/>
+                    <!--TODO FIND A WAY TO DISPLAY many2many LIKE BUTTONS-->
+                    <field name="sicet_type_ids" widget="many2many_tags"/>
                     <field name="amount"/>
                     <field name="commencement_date"/>
                     <field name="end_date"/>
