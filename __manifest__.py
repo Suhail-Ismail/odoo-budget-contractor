@@ -40,6 +40,7 @@ Contractor Management
         # VIEW
         'views/contract.xml',
         'views/contractor.xml',
+        'views/contractor_contact.xml',
         'views/rfs.xml',
         'views/milestone.xml',
         'views/sicet.xml',

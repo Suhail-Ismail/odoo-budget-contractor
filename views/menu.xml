@@ -17,6 +17,12 @@
         parent="menu_contractor_top"
         action="action_contractor"/>
     <menuitem
+        id="menu_contractor_contact_top_left"
+        name="Contractor Contact"
+        sequence="1"
+        parent="menu_contractor_top"
+        action="action_contractor_contact"/>
+    <menuitem
         id="menu_contract_top_left"
         name="Contract"
         sequence="2"
