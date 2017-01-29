@@ -73,11 +73,11 @@ class Contract(models.Model):
     @api.depends('contract_no', 'change_type', 'version', 'contractor_id.alias')
     def _compute_contract_ref(self):
         change_type = '' if self.change_type == 'principal' else self.change_type
-        self.contract_ref = "{}/{} {} {}".format(self.contract_no or '',
+        contract_ref = "{}/{} {} {}".format(self.contract_no or '',
                                                  self.contractor_id.alias or '',
                                                  change_type,
                                                  self.version or '').upper()
-
+        self.contract_ref = contract_ref.strip()
     # CONSTRAINS FIELDS
     # ----------------------------------------------------------
     _sql_constraints = [
