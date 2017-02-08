@@ -22,8 +22,9 @@ class Contract(models.Model):
     state = fields.Selection(string='State', selection=STATES, default='active')
 
     is_contract = fields.Boolean(string='Is Contract')
+    is_rfq = fields.Boolean(string='Is RFQ')
 
-    contract_no = fields.Char(string="Contract No")
+    no = fields.Char(string="No")
     budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
     change_type = fields.Selection(string='Change Type', selection=CHANGE_TYPES, default='principal')
     version = fields.Selection(string='Version', selection=VERSIONS)
@@ -70,10 +71,10 @@ class Contract(models.Model):
                                store=True)
 
     @api.one
-    @api.depends('contract_no', 'change_type', 'version', 'contractor_id.alias')
+    @api.depends('no', 'change_type', 'version', 'contractor_id.alias')
     def _compute_contract_ref(self):
         change_type = '' if self.change_type == 'principal' else self.change_type
-        contract_ref = "{}/{} {} {}".format(self.contract_no or '',
+        contract_ref = "{}/{} {} {}".format(self.no or '',
                                                  self.contractor_id.alias or '',
                                                  change_type,
                                                  self.version or '').upper()

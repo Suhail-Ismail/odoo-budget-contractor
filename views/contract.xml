@@ -37,10 +37,11 @@
                                 <field name="contractor_id"
                                        context="{'form_view_ref': 'budget_contractor.view_form_contractor',
                                                  'default_is_budget_contractor': True}}"/>
-
                             </group>
                             <group>
-                                <field name="contract_no"/>
+                                <field name="is_contract"/>
+                                <field name="is_rfq"/>
+                                <field name="no"/>
                                 <field name="change_type"/>
                                 <field name="version"/>
                                 <field name="sicet_type_ids"
