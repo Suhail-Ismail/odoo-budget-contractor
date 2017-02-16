@@ -100,6 +100,20 @@
         </record>
         <!--END FORM VIEW-->
 
+        <!--START TREE VIEW-->
+        <record model="ir.ui.view" id="view_tree_contractor">
+            <field name="name">Contractor</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="alias"/>
+                    <field name="state"/>
+                </tree>
+             </field>
+        </record>
+        <!--END TREE VIEW-->
+
         <!--START KANBAN VIEW-->
         <record model="ir.ui.view" id="view_kanban_contractor">
             <field name="name">Contractor</field>
@@ -153,13 +167,14 @@
             <field name="name">Contractor</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
-            <field name="view_mode">kanban,form,pivot</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="view_kanban_contractor"/>
             <field name="search_view_id" ref="view_search_contractor"/>
             <field name="domain">[('is_budget_contractor','=',True)]</field>
             <field name="context">
                 {'form_view_ref': 'budget_contractor.view_form_contractor',
-                'default_is_budget_contractor': True}
+                 'tree_view_ref': 'budget_contractor.view_tree_contractor',
+                 'default_is_budget_contractor': True}
             </field>
         </record>
         <!--END ACTION-->
