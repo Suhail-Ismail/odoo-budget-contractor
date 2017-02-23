@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <!--START VIEWS-->
         <!--START FORM VIEW-->
@@ -9,73 +9,111 @@
             <field name="arch" type="xml">
                 <form string="Contract">
                     <header>
-                        <button
-                                string="Close Contract"
-                                name="set2close"
-                                type="object"
-                                states="active"/>
-                        <field name="state" widget="statusbar"/>
+                        <!-- TODO MAKE BUTTONS -->
+                        <!--<button-->
+                        <!--string="Close Contract"-->
+                        <!--name="set2close"-->
+                        <!--type="object"-->
+                        <!--states="active"/>-->
+                        <field name="state" widget="statusbar" clickable="True"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="contract_ref" readonly='1' default_focus="1"
-                                       placeholder="Contract Reference"/>
+                                <field name="contract_ref"/>
                             </h1>
                         </div>
-                        <group>
-                            <group>
-                                <field name="section_ids"
-                                       widget="many2many_tags"
-                                       context="{'form_view_ref': 'budget_enduser.view_form_section',
+                        <notebook name="top">
+                            <page string="General">
+                                <group>
+                                    <group>
+                                        <field name="contractor_id"
+                                               context="{'form_view_ref': 'budget_contractor.view_form_contractor',
+                                                         'default_is_budget_contractor': True}}"/>
+                                        <field name="no"/>
+                                        <field name="year"/>
+                                        <field name="change_type"/>
+                                        <field name="version"/>
+                                        <field name="sicet_type_ids"
+                                               widget="many2many_tags"
+                                               options="{'no_quick_create': True,
+                                                 'no_create_edit': True}"/>
+                                        <field name="contract_type"/>
+                                        <field name="delivery_term"/>
+                                        <field name="opex_service"/>
+                                        <field name="sign_date"/>
+                                        <field name="commencement_date"/>
+                                        <field name="end_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="is_capex"/>
+                                        <field name="is_opex"/>
+                                        <field name="owner"/>
+                                        <field name="section_ids"
+                                               widget="many2many_tags"
+                                               context="{'form_view_ref': 'budget_enduser.view_form_section',
                                                  'default_is_budget_section': True}}"
-                                       options="{'no_quick_create': True,
-                                                 'no_create_edit': True}"
-                                />
-                                <field name="contractor_id"
-                                       context="{'form_view_ref': 'budget_contractor.view_form_contractor',
-                                                 'default_is_budget_contractor': True}}"/>
-                            </group>
-                            <group>
-                                <field name="is_contract"/>
-                                <field name="is_rfq"/>
-                                <field name="no"/>
-                                <field name="change_type"/>
-                                <field name="version"/>
-                                <field name="sicet_type_ids"
-                                       widget="many2many_tags"
-                                       options="{'no_quick_create': True,
-                                                 'no_create_edit': True}"
-                                />
-                            </group>
-                        </group>
-                        <group>
-                            <group>
-                                <field name="amount"/>
-                                <field name="service_amount"/>
-                                <field name="material_amount"/>
-                            </group>
-                            <group>
-                                <field name="sign_date"/>
-                                <field name="commencement_date"/>
-                                <field name="end_date"/>
-                            </group>
-                        </group>
-                        <group>
-                            <field name="remarks"/>
-                        </group>
-                        <notebook>
+                                               options="{'no_quick_create': True,
+                                                 'no_create_edit': True}"/>
+                                        <field name="sub_section_ids"
+                                               widget="many2many_tags"
+                                               context="{'form_view_ref': 'budget_enduser.view_form_sub_section',
+                                                 'default_is_budget_sub_section': True}}"
+                                               options="{'no_quick_create': True,
+                                                 'no_create_edit': True}"/>
+                                        <field name="volume_discount_ref"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="description"/>
+                                </group>
+                                <group>
+                                    <field name="remark"/>
+                                </group>
+                            </page>
+                            <page string="Numerics">
+                                <group>
+                                    <group>
+                                        <field name="year_count"/>
+                                        <field name="foc_service_month_count"/>
+                                        <field name="extended_warranty_count"/>
+                                        <field name="support_percentage"/>
+                                        <field name="maintenance_percentage"/>
+                                        <field name="spare_percentage"/>
+                                    </group>
+                                    <group>
+                                        <field name="amount"/>
+                                        <field name="cost_per_month"/>
+                                        <field name="cost_per_year"/>
+                                        <field name="hardware_amount"/>
+                                        <field name="software_amount"/>
+                                        <field name="service_amount"/>
+                                        <field name="future_voucher_amount"/>
+                                        <field name="voucher_utilized_amount"/>
+                                        <field name="foc_service_amount"/>
+                                        <field name="extended_warranty_amount"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                        <notebook name="bottom">
                             <page string="RFS Certificates">
                                 <field name="rfs_ids"
                                        context="{'default_contract_id': id}"
                                 />
                             </page>
                             <page string="Milestones">
-                                <field name="milestone_ids"
-                                       context="{'default_contract_id': id}"
-                                />
+                                <field name="milestone_ids" context="{'default_contract_id': id}">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="amount"/>
+                                        <field name="date"/>
+                                    </tree>
+                                </field>
+
                             </page>
                         </notebook>
                     </sheet>
@@ -112,7 +150,7 @@
                     <filter
                             name="filter_state"
                             string="Active"
-                            domain="[('state', 'in', ['active'])]"/>
+                            domain="[('state', 'in', ['draft'])]"/>
                 </search>
             </field>
         </record>
@@ -133,4 +171,4 @@
         </record>
         <!--END ACTION-->
     </data>
-</openerp>
+</odoo>

@@ -7,7 +7,7 @@
             <field name="model">budget.contractor.milestone</field>
             <field name="inherit_id" ref="view_form_milestone"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='reference_no']" position="before">
+                <xpath expr="//field[@name='name']" position="before">
                     <group groups="base.group_system">
                         <field name="is_actual"/>
                     </group>
