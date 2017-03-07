@@ -48,7 +48,7 @@ Contractor Management
         # VIEW INHERIT
         'views/milestone_inherit_actual.xml',
         'views/rfs_inherit_actual.xml',
-        'views/section_inherit.xml',
+        # 'views/section_inherit.xml',
 
         'views/menu.xml',
     ],

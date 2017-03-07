@@ -18,8 +18,9 @@ class Contract(models.Model):
     VERSIONS = [(i, '%d - %s' % (i, int_to_roman(i))) for i in range(1, 100)]
     CONTRACT_TYPES = choices_tuple(['rate', 'rfq', 'priced', 'support','consultancy',
                                     'license', 'service', 'supply', 'turnkey'], is_sorted=False)
-    DELIVERY_TERMS = choices_tuple(['fob', 'cif', 'ddp'], is_sorted=False)
+    DELIVERY_TERMS = choices_tuple(['fob', 'cip', 'cif', 'ddp', 'monthly'], is_sorted=False)
     OPEX_SERVICES = choices_tuple(['maintenance', 'repair and service'], is_sorted=False)
+    VENDOR_BASES = choices_tuple(['local', 'overseas'], is_sorted=False)
 
     # BASIC FIELDS
     # ----------------------------------------------------------
@@ -41,6 +42,7 @@ class Contract(models.Model):
     contract_type = fields.Selection(string='Contract Type', selection=CONTRACT_TYPES)
     delivery_term = fields.Selection(string='Delivery Term', selection=DELIVERY_TERMS)
     opex_service = fields.Selection(string='OPEX Service', selection=OPEX_SERVICES)
+    vendor_base = fields.Selection(string='OPEX Service', selection=VENDOR_BASES, default='local')
 
     # TODO DEPRECATED
     category = fields.Selection(string='Category', selection=CATEGORIES)

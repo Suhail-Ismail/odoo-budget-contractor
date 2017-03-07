@@ -14,9 +14,12 @@ class ReadyForService(models.Model):
     # ----------------------------------------------------------
     reference_no = fields.Char(string='Reference No')
     date = fields.Date(string='Date')
+    amount = fields.Monetary(string='Amount', currency_field='company_currency_id')
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
+    company_currency_id = fields.Many2one('res.currency', readonly=True,
+                                          default=lambda self: self.env.user.company_id.currency_id)
     contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
     actual_ids = fields.One2many('budget.contractor.rfs',
                                  'contractual_id',
