@@ -29,40 +29,36 @@
                             <page string="General">
                                 <group>
                                     <group>
-                                        <field name="contractor_id"
-                                               context="{'form_view_ref': 'budget_contractor.view_form_contractor',
-                                                         'default_is_budget_contractor': True}}"/>
+                                        <field name="new_contractor_id"/>
                                         <field name="no"/>
                                         <field name="year"/>
                                         <field name="change_type"/>
-                                        <field name="version"/>
+                                        <field name="version"
+                                               attrs="{'invisible': [('change_type','not in',['addendum', 'amendment'])]}"/>
                                         <field name="sicet_type_ids"
                                                widget="many2many_tags"
                                                options="{'no_quick_create': True,
                                                  'no_create_edit': True}"/>
                                         <field name="contract_type"/>
                                         <field name="delivery_term"/>
+                                        <field name="network_type"/>
+                                        <field name="network_layer"/>
+                                        <field name="system_type"/>
                                         <field name="opex_service"/>
-                                        <field name="sign_date"/>
-                                        <field name="commencement_date"/>
-                                        <field name="end_date"/>
                                     </group>
                                     <group>
                                         <field name="is_capex"/>
                                         <field name="is_opex"/>
+                                        <field name="sign_date"/>
+                                        <field name="commencement_date"/>
+                                        <field name="end_date"/>
                                         <field name="owner"/>
-                                        <field name="section_ids"
+                                        <field name="new_section_ids"
                                                widget="many2many_tags"
-                                               context="{'form_view_ref': 'budget_enduser.view_form_section',
-                                                 'default_is_budget_section': True}}"
-                                               options="{'no_quick_create': True,
-                                                 'no_create_edit': True}"/>
-                                        <field name="sub_section_ids"
+                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                        <field name="new_sub_section_ids"
                                                widget="many2many_tags"
-                                               context="{'form_view_ref': 'budget_enduser.view_form_sub_section',
-                                                 'default_is_budget_sub_section': True}}"
-                                               options="{'no_quick_create': True,
-                                                 'no_create_edit': True}"/>
+                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                         <field name="volume_discount_ref"/>
                                     </group>
                                 </group>
@@ -102,18 +98,17 @@
                         <notebook name="bottom">
                             <page string="RFS Certificates">
                                 <field name="rfs_ids"
-                                       context="{'default_contract_id': id}"
+                                       context="{'default_new_contract_id': id}"
                                 />
                             </page>
                             <page string="Milestones">
-                                <field name="milestone_ids" context="{'default_contract_id': id}">
+                                <field name="milestone_ids" context="{'default_new_contract_id': id}">
                                     <tree editable="bottom">
                                         <field name="name"/>
                                         <field name="amount"/>
                                         <field name="date"/>
                                     </tree>
                                 </field>
-
                             </page>
                         </notebook>
                     </sheet>

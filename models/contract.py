@@ -16,15 +16,23 @@ class Contract(models.Model):
     STATES = choices_tuple(['draft', 'yet to commission', 'on going', 'cancelled', 'expired'], is_sorted=False)
     CHANGE_TYPES = choices_tuple(['principal', 'amendment', 'addendum'], is_sorted=False)
     VERSIONS = [(i, '%d - %s' % (i, int_to_roman(i))) for i in range(1, 100)]
-    CONTRACT_TYPES = choices_tuple(['rate', 'rfq', 'priced', 'support','consultancy',
+    CONTRACT_TYPES = choices_tuple(['rate', 'rfq', 'priced', 'support', 'consultancy',
                                     'license', 'service', 'supply', 'turnkey'], is_sorted=False)
     DELIVERY_TERMS = choices_tuple(['fob', 'cip', 'cif', 'ddp', 'monthly'], is_sorted=False)
     OPEX_SERVICES = choices_tuple(['maintenance', 'repair and service'], is_sorted=False)
     VENDOR_BASES = choices_tuple(['local', 'overseas'], is_sorted=False)
+    NETWORK_TYPES = choices_tuple(['fixed', 'mobile', 'transmission'], is_sorted=False)
+    NETWORK_LAYERS = choices_tuple(['access', 'core'], is_sorted=False)
+    SYSTEM_TYPES = choices_tuple(['cloud', 'dwdm', 'gpon', 'last mile', 'load balance', 'ngn',
+                                  'nms', 'noc', 'proxy cache', 'servers', 'softswitch', 'watchguard',
+                                  'web filtering'], is_sorted=False)
 
     # BASIC FIELDS
     # ----------------------------------------------------------
     state = fields.Selection(string='State', selection=STATES, default='draft', track_visibility='onchange')
+    network_type = fields.Selection(string='Network Type', selection=NETWORK_TYPES)
+    network_layer = fields.Selection(string='Network Layer', selection=NETWORK_LAYERS)
+    system_type = fields.Selection(string='System Type', selection=SYSTEM_TYPES)
 
     is_opex = fields.Boolean(string='Is Opex')
     is_capex = fields.Boolean(string='Is Capex')
@@ -85,7 +93,9 @@ class Contract(models.Model):
     # ----------------------------------------------------------
     company_currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
+    # TODO DEPRECATED to be remove
     contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor', '=', True)])
+    new_contractor_id = fields.Many2one('budget.contractor.contractor', string='New Contractor')
 
     voucher_utilized_from_contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
 
@@ -114,6 +124,7 @@ class Contract(models.Model):
                                       'contract_id',
                                       'sicet_id',
                                       string='Sicet Type')
+
     section_ids = fields.Many2many('res.partner',
                                    'section_contract_rel',
                                    'contract_id',
@@ -121,6 +132,14 @@ class Contract(models.Model):
                                    string="Sections",
                                    domain="[('is_budget_section','=',True)]"
                                    )
+
+    new_section_ids = fields.Many2many('budget.enduser.section',
+                                       'section_contract_rel',
+                                       'contract_id',
+                                       'section_id',
+                                       string="New Sections",
+                                       )
+
     sub_section_ids = fields.Many2many('res.partner',
                                        'sub_section_contract_rel',
                                        'contract_id',
@@ -128,6 +147,13 @@ class Contract(models.Model):
                                        string="Sub Sections",
                                        domain="[('is_budget_sub_section','=',True)]"
                                        )
+
+    new_sub_section_ids = fields.Many2many('budget.enduser.sub.section',
+                                           'sub_section_contract_rel',
+                                           'contract_id',
+                                           'sub_section_id',
+                                           string="New Sub Sections",
+                                           )
 
     # COMPUTE FIELDS
     # ----------------------------------------------------------
@@ -140,13 +166,16 @@ class Contract(models.Model):
                                store=True)
 
     @api.one
-    @api.depends('no', 'change_type', 'version', 'contractor_id.alias')
+    @api.depends('no', 'year', 'change_type', 'version', 'contractor_id.alias')
     def _compute_contract_ref(self):
-        change_type = '' if self.change_type == 'principal' else self.change_type
-        contract_ref = "{}/{} {} {}".format(self.no or '',
-                                            self.contractor_id.alias or '',
-                                            change_type,
-                                            self.version or '').upper()
+        change_type = False if self.change_type == 'principal' else self.change_type
+        # PATTERN NO/ALIAS ADD VI
+        string_list = [i for i in [self.no, self.year, self.contractor_id.alias] if i is not False]
+        contract_ref = '/'.join(string_list)
+
+        string_list = [str(i) for i in [contract_ref, change_type, self.version] if i is not False]
+        contract_ref = ' '.join(string_list).upper()
+
         self.contract_ref = contract_ref.strip()
 
     @api.one

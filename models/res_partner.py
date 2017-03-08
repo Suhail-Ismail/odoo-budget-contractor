@@ -1,41 +1,32 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-from odoo.addons.budget_utilities.models.utilities import choices_tuple
 import re
 
 from odoo.exceptions import ValidationError
 
+# TODO TO BE REMOVE AFTER EVERYTHING REFERRING TO THIS IS CLEARED
 class Contractor(models.Model):
-    _name = 'budget.contractor.contractor'
-    _description = 'Contractor'
-    _rec_name = 'name'
-    _inherit = ['partner.mixin']
-
-    # CHOICES
-    # ----------------------------------------------------------
-    STATES = choices_tuple(['active', 'inactive'])
+    _inherit = 'res.partner'
 
     # BASIC FIELDS
-    # name exist already
+    # alias exist already
     # ----------------------------------------------------------
-    state = fields.Selection(string='State', selection=STATES, default='active')
+    is_budget_contractor = fields.Boolean(string="Is Contractor")
 
-    alias = fields.Char(string="Alias")
-
-    remark = fields.Text(string='Remarks')
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    # TODO CONSIDER MAKING A SEPERATE OBJECT NOT RES.PARTNER
-    contact_ids = fields.One2many('res.partner',
-                                  'contractor_id',
+    contractor_contact_ids = fields.One2many('res.partner',
+                                  'contractor_contact_contractor_id',
                                   string="Contractor Contacts")
-
     contractor_contract_ids = fields.One2many('budget.contractor.contract',
                                   'contractor_id',
                                   string="Contractor Contracts")
-
+    partner_id = fields.Many2one('res.partner', string='Contractor')
+    contact_ids = fields.One2many('res.partner',
+                                  'contractor_contact_contractor_id',
+                                  string="Contractor Contacts")
     # CONSTRAINS
     # ----------------------------------------------------------
     contract_count = fields.Integer(compute='_compute_contract_count', string="Contract Count")

@@ -13,4 +13,7 @@ class ContractorContact(models.Model):
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
+    contractor_id = fields.Many2one('budget.contractor.contractor', string='New Contractor')
+
+    # TODO DEPERCATED TO BE REMOVE
     contractor_contact_contractor_id = fields.Many2one('res.partner', string='Contractor')

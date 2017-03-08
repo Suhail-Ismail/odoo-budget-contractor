@@ -6,7 +6,7 @@
         <!--START FORM VIEW-->
         <record model="ir.ui.view" id="view_form_contractor">
             <field name="name">Contractor</field>
-            <field name="model">res.partner</field>
+            <field name="model">budget.contractor.contractor</field>
             <field name="arch" type="xml">
                 <form string="Contractor">
                     <sheet>
@@ -16,6 +16,9 @@
                             </button>
                         </div>
                         <div class="oe_title">
+                            <group groups="base.group_system">
+                                <field name="partner_id"/>
+                            </group>
                             <h1>
                                 <field name="name" default_focus="1" placeholder="Name"/>
                             </h1>
@@ -36,7 +39,7 @@
                         </group>
                         <notebook colspan="4">
                             <page string="Contacts">
-                                <field name="contractor_contact_ids" mode="kanban">
+                                <field name="contact_ids" mode="kanban">
                                     <kanban>
                                         <field name="name"/>
                                         <field name="function"/>
@@ -90,7 +93,7 @@
                             </page>
                             <page string="Contracts">
                                 <field name="contractor_contract_ids"
-                                       context="{'default_contractor_id': id}"
+                                       context="{'default_new_contractor_id': id}"
                                 />
                             </page>
                         </notebook>
@@ -103,7 +106,7 @@
         <!--START TREE VIEW-->
         <record model="ir.ui.view" id="view_tree_contractor">
             <field name="name">Contractor</field>
-            <field name="model">res.partner</field>
+            <field name="model">budget.contractor.contractor</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
@@ -117,7 +120,7 @@
         <!--START KANBAN VIEW-->
         <record model="ir.ui.view" id="view_kanban_contractor">
             <field name="name">Contractor</field>
-            <field name="model">res.partner</field>
+            <field name="model">budget.contractor.contractor</field>
             <field name="arch" type="xml">
                 <kanban class="o_res_partner_kanban">
                     <field name="name"/>
@@ -153,7 +156,7 @@
         <!--START SEARCH-->
         <record model="ir.ui.view" id="view_search_contractor">
             <field name="name">Budget Search</field>
-            <field name="model">res.partner</field>
+            <field name="model">budget.contractor.contractor</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
@@ -165,16 +168,15 @@
         <!--START ACTION-->
         <record model="ir.actions.act_window" id="action_contractor">
             <field name="name">Contractor</field>
-            <field name="res_model">res.partner</field>
+            <field name="res_model">budget.contractor.contractor</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="view_kanban_contractor"/>
             <field name="search_view_id" ref="view_search_contractor"/>
-            <field name="domain">[('is_budget_contractor','=',True)]</field>
+            <field name="domain"></field>
             <field name="context">
                 {'form_view_ref': 'budget_contractor.view_form_contractor',
-                 'tree_view_ref': 'budget_contractor.view_tree_contractor',
-                 'default_is_budget_contractor': True}
+                 'tree_view_ref': 'budget_contractor.view_tree_contractor'}
             </field>
         </record>
         <!--END ACTION-->

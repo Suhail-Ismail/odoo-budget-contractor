@@ -3,8 +3,8 @@
     <data>
         <!-- INHERIT FORM VIEW-->
         <record model="ir.ui.view" id="view_form_section_inherit">
-            <field name="name">res.partner.section.inherit.form</field>
-            <field name="model">res.partner</field>
+            <field name="name">budget.enduser.section.inherit.form</field>
+            <field name="model">budget.enduser.section</field>
             <field name="inherit_id" ref="budget_enduser.view_form_section"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
