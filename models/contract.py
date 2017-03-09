@@ -97,24 +97,24 @@ class Contract(models.Model):
     company_currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     # TODO DEPRECATED to be remove
-    contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor', '=', True)])
+#    contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor', '=', True)])
     old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
                                         domain=[('is_budget_contractor', '=', True)])
-    new_contractor_id = fields.Many2one('budget.contractor.contractor', string='New Contractor')
+    contractor_id = fields.Many2one('budget.contractor.contractor', string='New Contractor')
 
-    section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
-                                   string="Sections", domain=[('is_budget_section', '=', True)])
+#    new_section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
+#                                   string="Sections", domain=[('is_budget_section', '=', True)])
     old_section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
                                        string="Old Sections", domain=[('is_budget_section', '=', True)])
-    new_section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
+    section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
                                        'contract_id', 'section_id',
                                        string="New Sections", )
 
-    sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
-                                       string="Sub Sections", domain=[('is_budget_sub_section', '=', True)])
+#    sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
+#                                       string="Sub Sections", domain=[('is_budget_sub_section', '=', True)])
     old_sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
                                            string="Old Sub Sections", domain=[('is_budget_sub_section', '=', True)])
-    new_sub_section_ids = fields.Many2many('budget.enduser.sub.section',
+    sub_section_ids = fields.Many2many('budget.enduser.sub.section',
                                            'budget_sub_section_contract_rel',
                                            'contract_id', 'sub_section_id',
                                            string="New Sub Sections")
@@ -142,17 +142,16 @@ class Contract(models.Model):
     @api.one
     @api.depends('no', 'year', 'change_type', 'version', 'contractor_id.alias')
     def _compute_contract_ref(self):
-        pass
-        # change_type = False if self.change_type == 'principal' else self.change_type
-        # # PATTERN NO/ALIAS ADD VI
-        # string_list = [i for i in [self.no, self.year, self.contractor_id.alias] if i is not False]
-        # contract_ref = '/'.join(string_list)
-        #
-        # roman = '' if not self.version else int_to_roman(self.version)
-        # string_list = [i for i in [contract_ref, change_type, roman] if i is not False]
-        # contract_ref = ' '.join(string_list).upper()
-        #
-        # self.contract_ref = contract_ref.strip()
+        change_type = False if self.change_type == 'principal' else self.change_type
+        # PATTERN NO/ALIAS ADD VI
+        string_list = [i for i in [self.no, self.year, self.contractor_id.alias] if i is not False]
+        contract_ref = '/'.join(string_list)
+
+        roman = '' if not self.version else int_to_roman(self.version)
+        string_list = [i for i in [contract_ref, change_type, roman] if i is not False]
+        contract_ref = ' '.join(string_list).upper()
+
+        self.contract_ref = contract_ref.strip()
 
     # CONSTRAINS FIELDS
     # ----------------------------------------------------------
