@@ -92,9 +92,7 @@
                                 </field>
                             </page>
                             <page string="Contracts">
-                                <field name="contractor_contract_ids"
-                                       context="{'default_new_contractor_id': id}"
-                                />
+                                <field name="contract_ids"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -113,7 +111,7 @@
                     <field name="alias"/>
                     <field name="state"/>
                 </tree>
-             </field>
+            </field>
         </record>
         <!--END TREE VIEW-->
 
@@ -176,7 +174,7 @@
             <field name="domain"></field>
             <field name="context">
                 {'form_view_ref': 'budget_contractor.view_form_contractor',
-                 'tree_view_ref': 'budget_contractor.view_tree_contractor'}
+                'tree_view_ref': 'budget_contractor.view_tree_contractor'}
             </field>
         </record>
         <!--END ACTION-->

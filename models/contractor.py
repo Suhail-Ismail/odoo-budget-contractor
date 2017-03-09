@@ -6,6 +6,7 @@ import re
 
 from odoo.exceptions import ValidationError
 
+
 class Contractor(models.Model):
     _name = 'budget.contractor.contractor'
     _description = 'Contractor'
@@ -32,18 +33,18 @@ class Contractor(models.Model):
                                   'contractor_id',
                                   string="Contractor Contacts")
 
-    contractor_contract_ids = fields.One2many('budget.contractor.contract',
-                                  'contractor_id',
-                                  string="Contractor Contracts")
+    contract_ids = fields.One2many('budget.contractor.contract',
+                                   'contractor_id',
+                                   string="Contractor Contracts")
 
     # CONSTRAINS
     # ----------------------------------------------------------
     contract_count = fields.Integer(compute='_compute_contract_count', string="Contract Count")
 
     @api.one
-    @api.depends('contractor_contract_ids')
+    @api.depends('contract_ids')
     def _compute_contract_count(self):
-        self.contract_count = len(self.contractor_contract_ids)
+        self.contract_count = len(self.contract_ids)
 
     # CONSTRAINS
     # ----------------------------------------------------------

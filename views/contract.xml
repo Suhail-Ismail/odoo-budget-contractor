@@ -29,7 +29,10 @@
                             <page string="General">
                                 <group>
                                     <group>
-                                        <field name="new_contractor_id"/>
+                                        <field name="contractor_id" options="{'no_quick_create': True, 'no_create': True}"/>
+                                        <field name="old_contractor_id"
+                                               groups="base.group_system"
+                                               options="{'no_quick_create': True, 'no_create': True}"/>
                                         <field name="no"/>
                                         <field name="year"/>
                                         <field name="change_type"/>
@@ -39,6 +42,7 @@
                                                widget="many2many_tags"
                                                options="{'no_quick_create': True,
                                                  'no_create_edit': True}"/>
+                                        <field name="url" widget="url"/>
                                         <field name="contract_type"/>
                                         <field name="delivery_term"/>
                                         <field name="network_type"/>
@@ -53,12 +57,23 @@
                                         <field name="commencement_date"/>
                                         <field name="end_date"/>
                                         <field name="owner"/>
-                                        <field name="new_section_ids"
+
+                                        <field name="section_ids"
                                                widget="many2many_tags"
                                                options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                        <field name="new_sub_section_ids"
+                                        <field name="old_section_ids"
+                                               widget="many2many_tags"
+                                               groups="base.group_system"
+                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
+
+                                        <field name="sub_section_ids"
                                                widget="many2many_tags"
                                                options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                        <field name="old_sub_section_ids"
+                                               widget="many2many_tags"
+                                               groups="base.group_system"
+                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
+
                                         <field name="volume_discount_ref"/>
                                     </group>
                                 </group>
@@ -69,7 +84,7 @@
                                     <field name="remark"/>
                                 </group>
                             </page>
-                            <page string="Numerics">
+                            <page string="Financials">
                                 <group>
                                     <group>
                                         <field name="year_count"/>
@@ -88,8 +103,8 @@
                                         <field name="service_amount"/>
                                         <field name="future_voucher_amount"/>
                                         <field name="voucher_utilized_amount"/>
-                                        <field name="foc_service_amount"/>
-                                        <field name="extended_warranty_amount"/>
+                                        <field name="discount_amount"/>
+                                        <field name="training_amount"/>
                                     </group>
                                 </group>
                             </page>
@@ -98,11 +113,11 @@
                         <notebook name="bottom">
                             <page string="RFS Certificates">
                                 <field name="rfs_ids"
-                                       context="{'default_new_contract_id': id}"
+                                       context="{'default_contract_id': id}"
                                 />
                             </page>
                             <page string="Milestones">
-                                <field name="milestone_ids" context="{'default_new_contract_id': id}">
+                                <field name="milestone_ids" context="{'default_contract_id': id}">
                                     <tree editable="bottom">
                                         <field name="name"/>
                                         <field name="amount"/>
@@ -144,8 +159,8 @@
                     <field name="contract_ref"/>
                     <filter
                             name="filter_state"
-                            string="Active"
-                            domain="[('state', 'in', ['draft'])]"/>
+                            string="Need Action"
+                            domain="[('state', 'in', ['draft', 'on going'])]"/>
                 </search>
             </field>
         </record>

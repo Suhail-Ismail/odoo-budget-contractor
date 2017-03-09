@@ -16,14 +16,14 @@ class Contract(models.Model):
     STATES = choices_tuple(['draft', 'yet to commission', 'on going', 'cancelled', 'expired'], is_sorted=False)
     CHANGE_TYPES = choices_tuple(['principal', 'amendment', 'addendum'], is_sorted=False)
     VERSIONS = [(i, '%d - %s' % (i, int_to_roman(i))) for i in range(1, 100)]
-    CONTRACT_TYPES = choices_tuple(['rate', 'rfq', 'priced', 'support', 'consultancy',
-                                    'license', 'service', 'supply', 'turnkey'], is_sorted=False)
+    CONTRACT_TYPES = choices_tuple(['rate', 'fixed priced', 'support', 'consultancy', 'license', 'service'],
+                                   is_sorted=False)
     DELIVERY_TERMS = choices_tuple(['fob', 'cip', 'cif', 'ddp', 'monthly'], is_sorted=False)
-    OPEX_SERVICES = choices_tuple(['maintenance', 'repair and service'], is_sorted=False)
+    OPEX_SERVICES = choices_tuple(['maintenance', 'spare', 'repair and return', 'support', 'managed service'])
     VENDOR_BASES = choices_tuple(['local', 'overseas'], is_sorted=False)
     NETWORK_TYPES = choices_tuple(['fixed', 'mobile', 'transmission'], is_sorted=False)
     NETWORK_LAYERS = choices_tuple(['access', 'core'], is_sorted=False)
-    SYSTEM_TYPES = choices_tuple(['cloud', 'dwdm', 'gpon', 'last mile', 'load balance', 'ngn',
+    SYSTEM_TYPES = choices_tuple(['cloud', 'dwdm', 'gpon', 'last mile', 'load balancer', 'ngn',
                                   'nms', 'noc', 'proxy cache', 'servers', 'softswitch', 'watchguard',
                                   'web filtering'], is_sorted=False)
 
@@ -37,9 +37,7 @@ class Contract(models.Model):
     is_opex = fields.Boolean(string='Is Opex')
     is_capex = fields.Boolean(string='Is Capex')
 
-    # TODO DEPRECATED
     is_contract = fields.Boolean(string='Is Contract')
-    # TODO DEPRECATED
     is_rfq = fields.Boolean(string='Is RFQ')
 
     no = fields.Char(string="No")
@@ -51,6 +49,8 @@ class Contract(models.Model):
     delivery_term = fields.Selection(string='Delivery Term', selection=DELIVERY_TERMS)
     opex_service = fields.Selection(string='OPEX Service', selection=OPEX_SERVICES)
     vendor_base = fields.Selection(string='OPEX Service', selection=VENDOR_BASES, default='local')
+    url = fields.Char(string='Contract URL')
+    year = fields.Char(string="Year")
 
     # TODO DEPRECATED
     category = fields.Selection(string='Category', selection=CATEGORIES)
@@ -75,8 +75,8 @@ class Contract(models.Model):
     service_amount = fields.Monetary(string='Service Amount', currency_field='company_currency_id')
     future_voucher_amount = fields.Monetary(string='Future Voucher Amount', currency_field='company_currency_id')
     voucher_utilized_amount = fields.Monetary(string='Voucher Utilized Amount', currency_field='company_currency_id')
-    foc_service_amount = fields.Monetary(string='FOC Service Amount', currency_field='company_currency_id')
-    extended_warranty_amount = fields.Monetary(string='Extended Warranty Amount', currency_field='company_currency_id')
+    discount_amount = fields.Monetary(string='Discount Amount', currency_field='company_currency_id')
+    training_amount = fields.Monetary(string='Training Amount', currency_field='company_currency_id')
 
     support_percentage = fields.Float(string='Support Percentage', digits=(5, 2))
     maintenance_percentage = fields.Float(string='Maintenance Percentage', digits=(5, 2))
@@ -87,6 +87,9 @@ class Contract(models.Model):
 
     sign_date = fields.Date(string='Sign Date')
     commencement_date = fields.Date(string='Commencement Date')
+    expiry_date = fields.Date(string='Expiry Date')
+
+    # TODO DEPRECATED
     end_date = fields.Date(string='End Date')
 
     # RELATIONSHIPS
@@ -95,23 +98,28 @@ class Contract(models.Model):
                                           default=lambda self: self.env.user.company_id.currency_id)
     # TODO DEPRECATED to be remove
     contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor', '=', True)])
+    old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
+                                        domain=[('is_budget_contractor', '=', True)])
     new_contractor_id = fields.Many2one('budget.contractor.contractor', string='New Contractor')
 
+    section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
+                                   string="Sections", domain=[('is_budget_section', '=', True)])
+    old_section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
+                                       string="Old Sections", domain=[('is_budget_section', '=', True)])
+    new_section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
+                                       'contract_id', 'section_id',
+                                       string="New Sections", )
+
+    sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
+                                       string="Sub Sections", domain=[('is_budget_sub_section', '=', True)])
+    old_sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
+                                           string="Old Sub Sections", domain=[('is_budget_sub_section', '=', True)])
+    new_sub_section_ids = fields.Many2many('budget.enduser.sub.section',
+                                           'budget_sub_section_contract_rel',
+                                           'contract_id', 'sub_section_id',
+                                           string="New Sub Sections")
+
     voucher_utilized_from_contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
-
-    # capex_budget_ids = fields.Many2many('budget.core.budget',
-    #                                     'capex_budget_contract_rel',
-    #                                     'contract_id',
-    #                                     'capex_budget_id',
-    #                                     string='Capex Budget',
-    #                                     domain=[('is_project', '=', True)])
-
-    # opex_budget_ids = fields.Many2many('budget.core.budget',
-    #                                    'opex_budget_contract_rel',
-    #                                    'contract_id',
-    #                                    'capex_budget_id',
-    #                                    string='Capex Budget',
-    #                                    domain=[('is_operation', '=', True)])
 
     rfs_ids = fields.One2many('budget.contractor.rfs',
                               'contract_id',
@@ -125,42 +133,8 @@ class Contract(models.Model):
                                       'sicet_id',
                                       string='Sicet Type')
 
-    section_ids = fields.Many2many('res.partner',
-                                   'section_contract_rel',
-                                   'contract_id',
-                                   'section_id',
-                                   string="Sections",
-                                   domain="[('is_budget_section','=',True)]"
-                                   )
-
-    new_section_ids = fields.Many2many('budget.enduser.section',
-                                       'section_contract_rel',
-                                       'contract_id',
-                                       'section_id',
-                                       string="New Sections",
-                                       )
-
-    sub_section_ids = fields.Many2many('res.partner',
-                                       'sub_section_contract_rel',
-                                       'contract_id',
-                                       'sub_section_id',
-                                       string="Sub Sections",
-                                       domain="[('is_budget_sub_section','=',True)]"
-                                       )
-
-    new_sub_section_ids = fields.Many2many('budget.enduser.sub.section',
-                                           'sub_section_contract_rel',
-                                           'contract_id',
-                                           'sub_section_id',
-                                           string="New Sub Sections",
-                                           )
-
     # COMPUTE FIELDS
     # ----------------------------------------------------------
-    year = fields.Char(string="Year",
-                       compute='_compute_year',
-                       inverse='_set_year',
-                       store=True)
     contract_ref = fields.Char(string="Contract Reference",
                                compute='_compute_contract_ref',
                                store=True)
@@ -168,24 +142,17 @@ class Contract(models.Model):
     @api.one
     @api.depends('no', 'year', 'change_type', 'version', 'contractor_id.alias')
     def _compute_contract_ref(self):
-        change_type = False if self.change_type == 'principal' else self.change_type
-        # PATTERN NO/ALIAS ADD VI
-        string_list = [i for i in [self.no, self.year, self.contractor_id.alias] if i is not False]
-        contract_ref = '/'.join(string_list)
-
-        string_list = [str(i) for i in [contract_ref, change_type, self.version] if i is not False]
-        contract_ref = ' '.join(string_list).upper()
-
-        self.contract_ref = contract_ref.strip()
-
-    @api.one
-    @api.depends('no')
-    def _compute_year(self):
         pass
-
-    @api.one
-    def _set_year(self):
-        pass
+        # change_type = False if self.change_type == 'principal' else self.change_type
+        # # PATTERN NO/ALIAS ADD VI
+        # string_list = [i for i in [self.no, self.year, self.contractor_id.alias] if i is not False]
+        # contract_ref = '/'.join(string_list)
+        #
+        # roman = '' if not self.version else int_to_roman(self.version)
+        # string_list = [i for i in [contract_ref, change_type, roman] if i is not False]
+        # contract_ref = ' '.join(string_list).upper()
+        #
+        # self.contract_ref = contract_ref.strip()
 
     # CONSTRAINS FIELDS
     # ----------------------------------------------------------
