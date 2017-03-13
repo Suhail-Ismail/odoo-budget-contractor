@@ -100,7 +100,7 @@ class Contract(models.Model):
 #    contractor_id = fields.Many2one('res.partner', string='Contractor', domain=[('is_budget_contractor', '=', True)])
     old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
                                         domain=[('is_budget_contractor', '=', True)])
-    contractor_id = fields.Many2one('budget.contractor.contractor', string='New Contractor')
+    contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')
 
 #    new_section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
 #                                   string="Sections", domain=[('is_budget_section', '=', True)])
@@ -108,7 +108,7 @@ class Contract(models.Model):
                                        string="Old Sections", domain=[('is_budget_section', '=', True)])
     section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
                                        'contract_id', 'section_id',
-                                       string="New Sections", )
+                                       string="Sections", )
 
 #    sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
 #                                       string="Sub Sections", domain=[('is_budget_sub_section', '=', True)])
@@ -117,7 +117,7 @@ class Contract(models.Model):
     sub_section_ids = fields.Many2many('budget.enduser.sub.section',
                                            'budget_sub_section_contract_rel',
                                            'contract_id', 'sub_section_id',
-                                           string="New Sub Sections")
+                                           string="Sub Sections")
 
     voucher_utilized_from_contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
 
