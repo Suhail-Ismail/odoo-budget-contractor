@@ -11,13 +11,14 @@ class Milestone(models.Model):
     # CHOICES
     # ----------------------------------------------------------
     NAMES = choices_tuple(['delivery sicet-2a', 'ready for service (rfs)', 'provisional acceptance certificate (pac)',
-                           'service sicet-2a', 'delivery sicet-2b', 'service sicet-2b', 'progressive payment',
-                           'completion certificate', 'retention at completion certificate', 'retention at end of Maintenance',
-                           'team based hiring', 'consultancy', 'support and maintenance', 'others'], is_sorted=False)
+                           'service sicet-2a', 'delivery sicet-2b', 'service sicet-2b', 'progressive payment sicet-3',
+                           'completion certificate sicet-3', 'retention at completion certificate', 'retention at end of Maintenance',
+                           'others'], is_sorted=False)
     # BASIC FIELDS
     # ----------------------------------------------------------
     name = fields.Selection(string='Name', selection=NAMES)
     sequence = fields.Integer(string='Sequence')
+    month_count = fields.Integer(string='# of Months')
     date = fields.Date(string='Date')
     amount = fields.Monetary(string='Amount', currency_field='company_currency_id')
 

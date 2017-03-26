@@ -11,9 +11,15 @@
                 <form string="Contractor">
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" icon="fa-users">
+                            <button name="%(action_contract_summary)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-file-text"
+                                    context="{'search_default_contractor_id': id}"
+                                    help="Required Verification">
                                 <field name="contract_count" widget="statinfo" string="Contracts"/>
                             </button>
+
                         </div>
                         <div class="oe_title">
                             <group groups="base.group_system">
@@ -91,9 +97,6 @@
                                     </form>
                                 </field>
                             </page>
-                            <page string="Contracts">
-                                <field name="contract_ids"/>
-                            </page>
                         </notebook>
                     </sheet>
                 </form>
@@ -137,8 +140,6 @@
                                     <div>
                                         <field name="website"/>
                                     </div>
-                                    <!--<div><field name="street"/></div>-->
-                                    <!--<div><field name="street2"/></div>-->
                                     <div>
                                         <field name="city"/>
                                     </div>

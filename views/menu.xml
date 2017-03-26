@@ -33,24 +33,28 @@
         name="Ready for Service"
         sequence="3"
         parent="menu_contractor_top"
+        groups="base.group_system"
         action="action_rfs"/>
     <menuitem
         id="menu_milestone_top_left"
         name="Milestone"
         sequence="4"
         parent="menu_contractor_top"
+        groups="base.group_system"
         action="action_milestone"/>
     <menuitem
         id="menu_milestone_actual_top_left"
         name="Actual Milestone"
         sequence="5"
         parent="menu_contractor_top"
+        groups="base.group_system"
         action="action_actual_milestone"/>
     <menuitem
         id="menu_rfs_actual_top_left"
         name="Actual Ready for Service"
         sequence="6"
         parent="menu_contractor_top"
+        groups="base.group_system"
         action="action_actual_rfs"/>
     <menuitem
         id="menu_contract_sicet_top_left"

@@ -9,19 +9,19 @@
             <field name="arch" type="xml">
                 <form string="Contract">
                     <header>
-                        <!-- TODO MAKE BUTTONS -->
-                        <!--<button-->
-                        <!--string="Close Contract"-->
-                        <!--name="set2close"-->
-                        <!--type="object"-->
-                        <!--states="active"/>-->
-                        <field name="state" widget="statusbar" clickable="True"/>
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="contract signed,on going,completed,cancelled,expired"
+                               clickable="True"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                         </div>
                         <div class="oe_title">
                             <h1>
+                                <group groups="base.group_system">
+                                    <field name="is_record_lock"/>
+                                </group>
                                 <field name="contract_ref"/>
                             </h1>
                         </div>
@@ -29,7 +29,8 @@
                             <page string="General">
                                 <group>
                                     <group>
-                                        <field name="contractor_id" options="{'no_quick_create': True, 'no_create': True}"/>
+                                        <field name="contractor_id"
+                                               options="{'no_quick_create': True, 'no_create': True}"/>
                                         <field name="old_contractor_id"
                                                groups="base.group_system"
                                                options="{'no_quick_create': True, 'no_create': True}"/>
@@ -38,17 +39,14 @@
                                         <field name="change_type"/>
                                         <field name="version"
                                                attrs="{'invisible': [('change_type','not in',['addendum', 'amendment'])]}"/>
-                                        <field name="sicet_type_ids"
-                                               widget="many2many_tags"
-                                               options="{'no_quick_create': True,
-                                                 'no_create_edit': True}"/>
                                         <field name="url" widget="url"/>
-                                        <field name="contract_type"/>
-                                        <field name="delivery_term"/>
-                                        <field name="network_type"/>
-                                        <field name="network_layer"/>
-                                        <field name="system_type"/>
-                                        <field name="opex_service"/>
+                                        <field name="contract_type" required="1"/>
+                                        <field name="contract_scope" required="1"/>
+                                        <field name="payment_type" required="1"/>
+                                        <field name="delivery_term" required="1"/>
+                                        <field name="network_type" required="1"/>
+                                        <field name="network_layer" required="1"/>
+                                        <field name="system_type" required="1"/>
                                     </group>
                                     <group>
                                         <field name="is_capex"/>
@@ -57,25 +55,26 @@
                                         <field name="commencement_date"/>
                                         <field name="end_date"/>
                                         <field name="owner"/>
-
-                                        <field name="section_ids"
-                                               widget="many2many_tags"
-                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                        <field name="old_section_ids"
-                                               widget="many2many_tags"
-                                               groups="base.group_system"
-                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
-
-                                        <field name="sub_section_ids"
-                                               widget="many2many_tags"
-                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                        <field name="old_sub_section_ids"
-                                               widget="many2many_tags"
-                                               groups="base.group_system"
-                                               options="{'no_quick_create': True, 'no_create_edit': True}"/>
-
-                                        <field name="volume_discount_ref"/>
                                     </group>
+
+                                </group>
+                                <group>
+                                    <field name="section_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                    <field name="old_section_ids"
+                                           widget="many2many_tags"
+                                           groups="base.group_system"
+                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
+
+                                    <field name="sub_section_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                    <field name="old_sub_section_ids"
+                                           widget="many2many_tags"
+                                           groups="base.group_system"
+                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
+
                                 </group>
                                 <group>
                                     <field name="description"/>
@@ -88,40 +87,66 @@
                                 <group>
                                     <group>
                                         <field name="year_count"/>
-                                        <field name="foc_service_month_count"/>
                                         <field name="extended_warranty_count"/>
-                                        <field name="support_percentage"/>
-                                        <field name="maintenance_percentage"/>
-                                        <field name="spare_percentage"/>
+                                        <field name="normal_warranty_count"/>
+                                        <field name="foc_service_month_count"/>
                                     </group>
                                     <group>
                                         <field name="amount"/>
                                         <field name="cost_per_month"/>
                                         <field name="cost_per_year"/>
-                                        <field name="hardware_amount"/>
-                                        <field name="software_amount"/>
-                                        <field name="service_amount"/>
                                         <field name="future_voucher_amount"/>
                                         <field name="voucher_utilized_amount"/>
-                                        <field name="discount_amount"/>
                                         <field name="training_amount"/>
                                     </group>
+                                </group>
+                                <group>
+                                    <field name="volume_discount_ref"/>
                                 </group>
                             </page>
                         </notebook>
 
                         <notebook name="bottom">
-                            <page string="RFS Certificates">
-                                <field name="rfs_ids"
-                                       context="{'default_contract_id': id}"
-                                />
-                            </page>
-                            <page string="Milestones">
+                            <page string="Milestones"
+                                  attrs="{'invisible': [('contract_type','not in',['sicet 2a', 'sicet 3'])]}">
                                 <field name="milestone_ids" context="{'default_contract_id': id}">
+                                    <form></form>
                                     <tree editable="bottom">
-                                        <field name="name"/>
-                                        <field name="amount"/>
+                                        <field name="contract_id"
+                                               groups="base.group_system"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name" required="1"/>
+                                        <field name="month_count"/>
                                         <field name="date"/>
+                                        <field name="amount" sum="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Components"
+                                  attrs="{'invisible': [('contract_type','not in',['sicet 2a', 'sicet 3'])]}">
+                                <field name="component_ids" context="{'default_contract_id': id}">
+                                    <form></form>
+                                    <tree editable="bottom">
+                                        <field name="contract_id"
+                                               groups="base.group_system"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name" required="1"/>
+                                        <field name="description"/>
+                                        <field name="unit"/>
+                                        <field name="amount" sum="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="RFS Certificates">
+                                <field name="rfs_ids" context="{'default_contract_id': id}">
+                                    <form></form>
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="contract_id"
+                                               groups="base.group_system"/>
+                                        <field name="description"/>
+                                        <field name="date"/>
+                                        <field name="amount" sum="1"/>
                                     </tree>
                                 </field>
                             </page>
@@ -157,6 +182,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="contract_ref"/>
+                    <field name="contractor_id"/>
                     <filter
                             name="filter_state"
                             string="Need Action"
@@ -177,6 +203,17 @@
             <field name="context">
                 {'form_view_ref': 'budget_contractor.view_form_contract',
                 'search_default_filter_state': 1}
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_contract_summary">
+            <field name="name">Contract Summary</field>
+            <field name="res_model">budget.contractor.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="view_tree_contract"/>
+            <field name="search_view_id" ref="view_search_contract"/>
+            <field name="context">
+                {'form_view_ref': 'budget_contractor.view_form_contract'}
             </field>
         </record>
         <!--END ACTION-->
