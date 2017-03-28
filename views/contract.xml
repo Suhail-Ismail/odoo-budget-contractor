@@ -46,7 +46,8 @@
                                         <field name="delivery_term" required="1"/>
                                         <field name="network_type" required="1"/>
                                         <field name="network_layer" required="1"/>
-                                        <field name="system_type" required="1"/>
+                                        <field name="system_type_id" required="1"
+                                               options="{'no_create_edit': True}"/>
                                     </group>
                                     <group>
                                         <field name="is_capex"/>

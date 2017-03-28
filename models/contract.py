@@ -15,6 +15,9 @@ class Contract(models.Model):
     BUDGET_TYPES = choices_tuple(['capex', 'opex'])
     OPEX_SERVICES = choices_tuple(['maintenance', 'spare', 'repair and return', 'support', 'managed service'])
     CATEGORIES = choices_tuple(['consultancy', 'license', 'service', 'supply', 'support', 'turnkey'])
+    SYSTEM_TYPES = choices_tuple(['cloud', 'dwdm', 'gpon', 'load balancer', 'ngn', 'nms',
+                                  'noc', 'proxy cache', 'servers', 'softswitch', 'watchguard',
+                                  'web filtering'], is_sorted=False)
 
     budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
     is_contract = fields.Boolean(string='Is Contract')
@@ -30,6 +33,7 @@ class Contract(models.Model):
     spare_percentage = fields.Float(string='Spare Percentage', digits=(5, 2))
     volume_discount_ref = fields.Char(string='Volume Discount Reference')
     discount_amount = fields.Monetary(string='Discount Amount', currency_field='company_currency_id')
+    system_type = fields.Selection(string='System Type', selection=SYSTEM_TYPES)
 
     old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
                                         domain=[('is_budget_contractor', '=', True)])
@@ -57,16 +61,12 @@ class Contract(models.Model):
     NETWORK_TYPES = choices_tuple(['fixed', 'mobile', 'transmission'], is_sorted=False)
     NETWORK_LAYERS = choices_tuple(['last mile', 'access', 'aggregation', 'core', 'transmission',
                                     'service delivery', 'power', 'nms', 'digital', 'cpe and others'], is_sorted=False)
-    SYSTEM_TYPES = choices_tuple(['cloud', 'dwdm', 'gpon', 'load balancer', 'ngn', 'nms',
-                                  'noc', 'proxy cache', 'servers', 'softswitch', 'watchguard',
-                                  'web filtering'], is_sorted=False)
 
     # BASIC FIELDS
     # ----------------------------------------------------------
     state = fields.Selection(string='State', selection=STATES, default='draft', track_visibility='onchange')
     network_type = fields.Selection(string='Network Type', selection=NETWORK_TYPES)
     network_layer = fields.Selection(string='Network Layer', selection=NETWORK_LAYERS)
-    system_type = fields.Selection(string='System Type', selection=SYSTEM_TYPES)
 
     is_opex = fields.Boolean(string='Is Opex')
     is_capex = fields.Boolean(string='Is Capex')
@@ -109,6 +109,7 @@ class Contract(models.Model):
     # ----------------------------------------------------------
     company_currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
+    system_type_id = fields.Many2one('budget.contractor.contract.system.type', string='System Type')
     contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')
     section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
                                    'contract_id', 'section_id',
@@ -170,11 +171,6 @@ class Contract(models.Model):
     @api.depends('state')
     def _compute_is_record_lock(self):
         self.is_record_lock = True if self.state == 'completed' else False
-
-    @api.model
-    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
-        res = super(Contract, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
-        return res
 
     # def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
     #     res = models.Model.fields_view_get(self, cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)

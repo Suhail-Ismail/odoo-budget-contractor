@@ -43,7 +43,7 @@ Contractor Management
         'views/contractor_contact.xml',
         'views/rfs.xml',
         'views/milestone.xml',
-        'views/sicet.xml',
+        'views/system_type.xml',
 
         # VIEW INHERIT
         'views/milestone_inherit_actual.xml',

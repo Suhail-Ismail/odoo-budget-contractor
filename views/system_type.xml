@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--START VIEWS-->
+
+        <!--START TREE VIEW-->
+        <record model="ir.ui.view" id="view_tree_contract_system_type">
+            <field name="name">budget.contractor.contract.system.type.tree</field>
+            <field name="model">budget.contractor.contract.system.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <!--END TREE VIEW-->
+
+        <!--START ACTION-->
+        <record model="ir.actions.act_window" id="action_contract_system_type">
+            <field name="name">Contract System Type</field>
+            <field name="res_model">budget.contractor.contract.system.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_tree_contract_system_type"/>
+        </record>
+        <!--END ACTION-->
+    </data>
+</odoo>

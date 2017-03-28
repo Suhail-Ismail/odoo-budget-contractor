@@ -57,11 +57,11 @@
         groups="base.group_system"
         action="action_actual_rfs"/>
     <menuitem
-        id="menu_contract_sicet_top_left"
-        name="Sicet"
+        id="menu_contract_system_type_top_left"
+        name="System Type"
         sequence="7"
         parent="menu_contractor_top"
-        action="action_contract_sicet"
+        action="action_contract_system_type"
         groups="base.group_system"/>
     <!--END MENU CHILD-->
     </data>
