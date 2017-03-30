@@ -6,6 +6,7 @@
     <menuitem
         id="menu_contractor_top"
         name="Contracts"
+        groups="base.group_system,budget_contractor.group_contractor_user,budget_contractor.group_contractor_manager"
         sequence="3"/>
     <!--END MENU PARENT-->
 

@@ -8,7 +8,7 @@ class Contract(models.Model):
     _name = 'budget.contractor.contract'
     _rec_name = 'contract_ref'
     _description = 'Contract'
-    _inherit = ['record.lock.mixin']
+    _inherit = ['record.lock.mixin', 'mail.thread']
 
     # TODO: TO BE REMOVE WHEN FINALIZED / DEPRECATED
     # ----------------------------------------------------------
@@ -19,6 +19,8 @@ class Contract(models.Model):
                                   'noc', 'proxy cache', 'servers', 'softswitch', 'watchguard',
                                   'web filtering'], is_sorted=False)
 
+    cost_per_month = fields.Monetary(string='Cost per Month', currency_field='company_currency_id')
+    cost_per_year = fields.Monetary(string='Cost per Year', currency_field='company_currency_id')
     budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
     is_contract = fields.Boolean(string='Is Contract')
     is_rfq = fields.Boolean(string='Is RFQ')
@@ -75,6 +77,7 @@ class Contract(models.Model):
     change_type = fields.Selection(string='Change Type', selection=CHANGE_TYPES, default='principal')
     version = fields.Selection(string='Version', selection=VERSIONS)
     contract_type = fields.Selection(string='Contract Type', selection=CONTRACT_TYPES)
+    # TODO CONFIRM TO AZAR/RISHAD IF IT SHOULD BE REMOVE
     contract_scope = fields.Selection(string='Contract Scope', selection=CONTRACT_SCOPES)
     payment_type = fields.Selection(string='Payment Type', selection=PAYMENT_TYPES)
     delivery_term = fields.Selection(string='Delivery Term', selection=DELIVERY_TERMS)
@@ -92,8 +95,6 @@ class Contract(models.Model):
     normal_warranty_count = fields.Integer(string='Normal Warranty # of Months')
 
     amount = fields.Monetary(string='Contract Amount', currency_field='company_currency_id')
-    cost_per_month = fields.Monetary(string='Cost per Month', currency_field='company_currency_id')
-    cost_per_year = fields.Monetary(string='Cost per Year', currency_field='company_currency_id')
     hardware_amount = fields.Monetary(string='Hardware Amount', currency_field='company_currency_id')
     software_amount = fields.Monetary(string='Software Amount', currency_field='company_currency_id')
     service_amount = fields.Monetary(string='Service Amount', currency_field='company_currency_id')
@@ -153,6 +154,7 @@ class Contract(models.Model):
     # ----------------------------------------------------------
     _sql_constraints = [
         ('contract_ref_uniq', 'unique(contract_ref)', 'Already Exist'),
+        ('contract_capex_or_opex_required', 'CHECK(is_opex OR is_capex)', 'MUST SELECT EITHER CAPEX OR OPEX OR BOTH'),
     ]
 
     # BUTTON ACTIONS / TRANSITIONS
@@ -160,6 +162,14 @@ class Contract(models.Model):
     @api.one
     def set2active(self):
         self.state = 'active'
+
+    @api.one
+    def set2contract_signed(self):
+        self.state = 'contract signed'
+
+    @api.one
+    def set2on_going(self):
+        self.state = 'on going'
 
     @api.one
     def set2close(self):
@@ -170,14 +180,15 @@ class Contract(models.Model):
     @api.one
     @api.depends('state')
     def _compute_is_record_lock(self):
-        self.is_record_lock = True if self.state == 'completed' else False
+        lock_states = ['draft', 'under verification']
+        self.is_record_lock = True if self.state not in lock_states else False
 
-    # def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
-    #     res = models.Model.fields_view_get(self, cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
-    #     realman = context.get('realman', True)
-    #     if not realman and view_type == 'form':
-    #         doc = etree.XML(res['arch'])
-    #         for t in doc.xpath("//form[@string='Bill of Material']"):
-    #             t.attrib['edit'] = 'false'
-    #         res['arch'] = etree.tostring(doc)
-    #     return res
+        # def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
+        #     res = models.Model.fields_view_get(self, cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+        #     realman = context.get('realman', True)
+        #     if not realman and view_type == 'form':
+        #         doc = etree.XML(res['arch'])
+        #         for t in doc.xpath("//form[@string='Bill of Material']"):
+        #             t.attrib['edit'] = 'false'
+        #         res['arch'] = etree.tostring(doc)
+        #     return res
