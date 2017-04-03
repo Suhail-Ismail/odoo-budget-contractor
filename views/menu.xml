@@ -63,7 +63,7 @@
         sequence="7"
         parent="menu_contractor_top"
         action="action_contract_system_type"
-        groups="base.group_system"/>
+        groups="base.group_system,base.group_no_one"/>
     <!--END MENU CHILD-->
     </data>
 </openerp>
