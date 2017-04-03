@@ -180,15 +180,5 @@ class Contract(models.Model):
     @api.one
     @api.depends('state')
     def _compute_is_record_lock(self):
-        lock_states = ['draft', 'under verification']
+        lock_states = ['draft', 'under verification', 'contract signed']
         self.is_record_lock = True if self.state not in lock_states else False
-
-        # def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
-        #     res = models.Model.fields_view_get(self, cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
-        #     realman = context.get('realman', True)
-        #     if not realman and view_type == 'form':
-        #         doc = etree.XML(res['arch'])
-        #         for t in doc.xpath("//form[@string='Bill of Material']"):
-        #             t.attrib['edit'] = 'false'
-        #         res['arch'] = etree.tostring(doc)
-        #     return res
