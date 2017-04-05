@@ -54,11 +54,11 @@ class Contract(models.Model):
     VERSIONS = [(i, '%d - %s' % (i, int_to_roman(i))) for i in range(1, 100)]
     CONTRACT_TYPES = choices_tuple(['rfq', 'sicet 2a', 'sicet 2b', 'sicet 3'], is_sorted=False)
     CONTRACT_SCOPES = choices_tuple(
-        ['supply and installation', 'procurement', 'consultancy', 'support license', 'service'],
+        ['supply and installation', 'procurement', 'consultancy', 'support license', 'service', 'others'],
         is_sorted=False)
-    PAYMENT_TYPES = choices_tuple(['rate', 'fixed price'],
+    PAYMENT_TYPES = choices_tuple(['rate', 'fixed price', 'others'],
                                   is_sorted=False)
-    DELIVERY_TERMS = choices_tuple(['fob', 'cip', 'cif', 'ddp', 'monthly'], is_sorted=False)
+    DELIVERY_TERMS = choices_tuple(['fob', 'cip', 'cif', 'ddp', 'monthly', 'others'], is_sorted=False)
     VENDOR_BASES = choices_tuple(['local', 'overseas'], is_sorted=False)
     NETWORK_TYPES = choices_tuple(['fixed', 'mobile', 'transmission'], is_sorted=False)
     NETWORK_LAYERS = choices_tuple(['last mile', 'access', 'aggregation', 'core', 'transmission',

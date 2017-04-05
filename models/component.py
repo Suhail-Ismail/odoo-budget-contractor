@@ -2,6 +2,7 @@
 from odoo import models, fields, api
 from odoo.addons.budget_utilities.models.utilities import choices_tuple
 
+
 class Component(models.Model):
     _name = 'budget.contractor.component'
     _rec_name = 'name'
@@ -10,8 +11,8 @@ class Component(models.Model):
 
     # CHOICES
     # ----------------------------------------------------------
-    NAMES = choices_tuple(['equipment', 'software', 'installation services',
-                           'consultancy', 'support and maintenance',
+    NAMES = choices_tuple(['equipment', 'software', 'equipment and software',
+                           'installation services', 'consultancy', 'support and maintenance',
                            'team based hiring', 'spare', 'return and repair',
                            'managed service'], is_sorted=False)
     # BASIC FIELDS
