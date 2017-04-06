@@ -34,7 +34,6 @@ class Contract(models.Model):
     maintenance_percentage = fields.Float(string='Maintenance Percentage', digits=(5, 2))
     spare_percentage = fields.Float(string='Spare Percentage', digits=(5, 2))
     volume_discount_ref = fields.Char(string='Volume Discount Reference')
-    discount_amount = fields.Monetary(string='Discount Amount', currency_field='company_currency_id')
     system_type = fields.Selection(string='System Type', selection=SYSTEM_TYPES)
 
     old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
@@ -95,6 +94,7 @@ class Contract(models.Model):
     normal_warranty_count = fields.Integer(string='Normal Warranty # of Months')
 
     amount = fields.Monetary(string='Contract Amount', currency_field='company_currency_id')
+    discount_amount = fields.Monetary(string='Discount Amount', currency_field='company_currency_id')
     hardware_amount = fields.Monetary(string='Hardware Amount', currency_field='company_currency_id')
     software_amount = fields.Monetary(string='Software Amount', currency_field='company_currency_id')
     service_amount = fields.Monetary(string='Service Amount', currency_field='company_currency_id')
