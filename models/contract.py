@@ -58,8 +58,8 @@ class Contract(models.Model):
     PAYMENT_TYPES = choices_tuple(['rate', 'fixed price', 'others'],
                                   is_sorted=False)
     DELIVERY_TERMS = choices_tuple(['fob', 'cip', 'cif', 'ddp', 'monthly', 'others'], is_sorted=False)
-    VENDOR_BASES = choices_tuple(['local', 'overseas'], is_sorted=False)
-    NETWORK_TYPES = choices_tuple(['fixed', 'mobile', 'transmission'], is_sorted=False)
+    VENDOR_BASES = choices_tuple(['local', 'overseas', 'others'], is_sorted=False)
+    NETWORK_TYPES = choices_tuple(['fixed', 'mobile', 'transmission', 'others'], is_sorted=False)
     NETWORK_LAYERS = choices_tuple(['last mile', 'access', 'aggregation', 'core', 'transmission',
                                     'service delivery', 'power', 'nms', 'digital', 'cpe and others'], is_sorted=False)
 

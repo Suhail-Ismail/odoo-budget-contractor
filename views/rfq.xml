@@ -90,22 +90,6 @@
         </record>
         <!--END TREE VIEW-->
 
-        <!--START SEARCH VIEW-->
-        <record model="ir.ui.view" id="view_search_rfq">
-            <field name="name">budget.contractor.rfq.search</field>
-            <field name="model">budget.contractor.rfq</field>
-            <field name="arch" type="xml">
-                <search>
-                    <field name="ref_no"/>
-                    <filter
-                            name="filter_state"
-                            string="Need Action"
-                            domain="[('state', 'in', ['draft'])]"/>
-                </search>
-            </field>
-        </record>
-        <!--END SEARCH VIEW-->
-
         <!--START ACTION-->
         <record model="ir.actions.act_window" id="action_rfq">
             <field name="name">RFQ</field>
@@ -113,10 +97,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,pivot</field>
             <field name="view_id" ref="view_tree_rfq"/>
-            <field name="search_view_id" ref="view_search_rfq"/>
             <field name="context">
-                {'form_view_ref': 'budget_contractor.view_form_rfq',
-                'search_default_filter_state': 1}
+                {'form_view_ref': 'budget_contractor.view_form_rfq'}
             </field>
         </record>
         <!--END ACTION-->
