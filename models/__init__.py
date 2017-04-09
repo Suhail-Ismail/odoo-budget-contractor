@@ -2,12 +2,11 @@
 
 # INHERITANCE MODELS
 # ----------------------------------------------------------
-# from . import section_inherit
 
 # BASIC MODELS
 # ----------------------------------------------------------
 from . import res_partner, contractor, contractor_contact, contract, \
-    milestone, component, rfs, sicet, system_type
+    milestone, component, rfs, sicet, system_type, rfq
 
 # MODELS INHERITANCE BELOW COMES LAST BECAUSE THEY ARE INHERITING MODELS FROM THE SAME MODULE
 # INHERITANCE MODELS

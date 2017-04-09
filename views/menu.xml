@@ -24,43 +24,49 @@
         parent="menu_contractor_top"
         action="action_contractor_contact"/>
     <menuitem
+        id="menu_rfq_top_left"
+        name="RFQ"
+        sequence="2"
+        parent="menu_contractor_top"
+        action="action_rfq"/>
+    <menuitem
         id="menu_contract_top_left"
         name="Contract"
-        sequence="2"
+        sequence="3"
         parent="menu_contractor_top"
         action="action_contract"/>
     <menuitem
         id="menu_rfs_top_left"
         name="Ready for Service"
-        sequence="3"
+        sequence="4"
         parent="menu_contractor_top"
         groups="base.group_system"
         action="action_rfs"/>
     <menuitem
         id="menu_milestone_top_left"
         name="Milestone"
-        sequence="4"
+        sequence="5"
         parent="menu_contractor_top"
         groups="base.group_system"
         action="action_milestone"/>
     <menuitem
         id="menu_milestone_actual_top_left"
         name="Actual Milestone"
-        sequence="5"
+        sequence="6"
         parent="menu_contractor_top"
         groups="base.group_system"
         action="action_actual_milestone"/>
     <menuitem
         id="menu_rfs_actual_top_left"
         name="Actual Ready for Service"
-        sequence="6"
+        sequence="7"
         parent="menu_contractor_top"
         groups="base.group_system"
         action="action_actual_rfs"/>
     <menuitem
         id="menu_contract_system_type_top_left"
         name="System Type"
-        sequence="7"
+        sequence="8"
         parent="menu_contractor_top"
         action="action_contract_system_type"
         groups="base.group_system,base.group_no_one"/>

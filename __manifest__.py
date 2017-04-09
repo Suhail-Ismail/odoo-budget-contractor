@@ -38,6 +38,7 @@ Contractor Management
         'security/ir.model.access.csv',
 
         # VIEW
+        'views/rfq.xml',
         'views/contract.xml',
         'views/contractor.xml',
         'views/contractor_contact.xml',
@@ -48,7 +49,6 @@ Contractor Management
         # VIEW INHERIT
         'views/milestone_inherit_actual.xml',
         'views/rfs_inherit_actual.xml',
-        # 'views/section_inherit.xml',
 
         'views/menu.xml',
     ],

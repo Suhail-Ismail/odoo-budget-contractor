@@ -112,6 +112,8 @@ class Contract(models.Model):
                                           default=lambda self: self.env.user.company_id.currency_id)
     system_type_id = fields.Many2one('budget.contractor.contract.system.type', string='System Type')
     contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')
+    rfq_id = fields.Many2one('budget.contractor.rfq', string='RFQ',
+                             domain="[('contract_ids','=',False)]")
     section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
                                    'contract_id', 'section_id',
                                    string="Sections", )

@@ -64,6 +64,8 @@
                                         <field name="commencement_date"/>
                                         <field name="end_date"/>
                                         <field name="owner"/>
+                                        <field name="rfq_id"
+                                               options="{'no_create': True, 'no_open': True}"/>
                                     </group>
 
                                 </group>
