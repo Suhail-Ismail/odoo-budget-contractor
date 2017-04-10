@@ -51,7 +51,7 @@ class Contract(models.Model):
                            is_sorted=False)
     CHANGE_TYPES = choices_tuple(['principal', 'amendment', 'addendum'], is_sorted=False)
     VERSIONS = [(i, '%d - %s' % (i, int_to_roman(i))) for i in range(1, 100)]
-    CONTRACT_TYPES = choices_tuple(['rfq', 'sicet 2a', 'sicet 2b', 'sicet 3'], is_sorted=False)
+    CONTRACT_TYPES = choices_tuple(['sicet 2a', 'sicet 2b', 'sicet 3', 'others'], is_sorted=False)
     CONTRACT_SCOPES = choices_tuple(
         ['supply and installation', 'procurement', 'consultancy', 'support license', 'service', 'others'],
         is_sorted=False)
