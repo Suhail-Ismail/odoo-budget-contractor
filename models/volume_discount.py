@@ -6,7 +6,7 @@ from odoo.addons.budget_utilities.models.utilities import choices_tuple
 class VolumeDiscount(models.Model):
     _name = 'budget.contractor.volume.discount'
     _description = 'Volume Discount'
-    _order = 'sequence'
+    _order = 'threshold desc'
 
     # CHOICES
     # ----------------------------------------------------------
