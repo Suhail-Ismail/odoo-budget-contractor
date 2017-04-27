@@ -131,6 +131,9 @@ class Contract(models.Model):
     component_ids = fields.One2many('budget.contractor.component',
                                     'contract_id',
                                     string="Components")
+    volume_discount_ids = fields.One2many('budget.contractor.volume.discount',
+                                          'contract_id',
+                                          string="Volume Discounts")
 
     # COMPUTE FIELDS
     # ----------------------------------------------------------

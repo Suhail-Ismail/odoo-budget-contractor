@@ -160,6 +160,18 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="Volume Discounts">
+                                <field name="volume_discount_ids" context="{'default_contract_id': id}">
+                                    <form></form>
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="contract_id"
+                                               groups="base.group_system"/>
+                                        <field name="threshold"/>
+                                        <field name="discount_percentage"/>
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
