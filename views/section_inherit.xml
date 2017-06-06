@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <!-- INHERIT FORM VIEW-->
         <record model="ir.ui.view" id="view_form_section_inherit">
@@ -15,4 +15,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

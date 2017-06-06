@@ -190,7 +190,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="contract_ref"/>
-                    <!--TODO FIND A WAY TO DISPLAY many2many LIKE BUTTONS-->
+                    <!-- TODO FIND A WAY TO DISPLAY many2many LIKE BUTTONS -->
                     <field name="sicet_type_ids" widget="many2many_tags"/>
                     <field name="amount"/>
                     <field name="commencement_date"/>

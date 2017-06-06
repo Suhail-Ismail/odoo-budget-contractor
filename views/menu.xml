@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
+<odoo>
     <data>
     <!--MENU PARENT-->
     <menuitem
@@ -72,4 +72,4 @@
         groups="base.group_system,base.group_no_one"/>
     <!--END MENU CHILD-->
     </data>
-</openerp>
+</odoo>

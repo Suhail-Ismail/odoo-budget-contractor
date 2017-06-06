@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import http
+from odoo import http
 
 # class BudgetContractor(http.Controller):
 #     @http.route('/budget_contractor/budget_contractor/', auth='public')
