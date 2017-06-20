@@ -42,10 +42,14 @@ class Rfq(models.Model):
     # ----------------------------------------------------------
     company_currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
+    division_ids = fields.Many2many('budget.enduser.section', 'budget_division_rfq_rel',
+                                    'contract_id', 'division_id',
+                                    string="Divisions")
+    # TODO TRASFERING SECTION TO DIVISION
     section_ids = fields.Many2many('budget.enduser.section',
                                    'budget_section_rfq_rel',
                                    'rfq_id', 'section_id',
-                                   string="Sections", )
+                                   string="Sections")
     sub_section_ids = fields.Many2many('budget.enduser.sub.section',
                                        'budget_sub_section_rfq_rel',
                                        'rfq_id', 'sub_section_id',

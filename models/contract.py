@@ -39,9 +39,9 @@ class Contract(models.Model):
     old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
                                         domain=[('is_budget_contractor', '=', True)])
     old_section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
-                                       string="Old Sections", domain=[('is_budget_section', '=', True)])
+                                       string="Old Sections")
     old_sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
-                                           string="Old Sub Sections", domain=[('is_budget_sub_section', '=', True)])
+                                           string="Old Sub Sections")
     sicet_type_ids = fields.Many2many('budget.contractor.contract.sicet', 'sicet_contract_rel', 'contract_id',
                                       'sicet_id', string='Sicet Type')
 
@@ -114,9 +114,13 @@ class Contract(models.Model):
     contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')
     rfq_id = fields.Many2one('budget.contractor.rfq', string='RFQ',
                              domain="[('contract_ids','=',False)]")
+    division_ids = fields.Many2many('budget.enduser.section', 'budget_division_contract_rel',
+                                    'contract_id', 'division_id',
+                                    string="Divisions")
+    # TODO TRASFERING SECTION TO DIVISION
     section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
                                    'contract_id', 'section_id',
-                                   string="Sections", )
+                                   string="Sections")
     sub_section_ids = fields.Many2many('budget.enduser.sub.section',
                                        'budget_sub_section_contract_rel',
                                        'contract_id', 'sub_section_id',
