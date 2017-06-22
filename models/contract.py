@@ -114,10 +114,9 @@ class Contract(models.Model):
     contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')
     rfq_id = fields.Many2one('budget.contractor.rfq', string='RFQ',
                              domain="[('contract_ids','=',False)]")
-    division_ids = fields.Many2many('budget.enduser.section', 'budget_division_contract_rel',
+    division_ids = fields.Many2many('budget.enduser.division', 'budget_division_contract_rel',
                                     'contract_id', 'division_id',
                                     string="Divisions")
-    # TODO TRASFERING SECTION TO DIVISION
     section_ids = fields.Many2many('budget.enduser.section', 'budget_section_contract_rel',
                                    'contract_id', 'section_id',
                                    string="Sections")
