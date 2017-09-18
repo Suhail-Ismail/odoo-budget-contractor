@@ -32,15 +32,15 @@ class Rfq(models.Model):
     justification = fields.Text(string='Justification')
     remark = fields.Text(string='Remark')
 
-    amount = fields.Monetary(string='RFQ Amount', currency_field='company_currency_id')
+    amount = fields.Monetary(string='RFQ Amount', currency_field='currency_id')
     digital_investment_amount = fields.Monetary(string='Digital Investment Amount',
-                                                currency_field='company_currency_id')
+                                                currency_field='currency_id')
 
     approved_date = fields.Date(string='Sign Date')
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    company_currency_id = fields.Many2one('res.currency', readonly=True,
+    currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     division_ids = fields.Many2many('budget.enduser.division', 'budget_division_rfq_rel',
                                     'contract_id', 'division_id',

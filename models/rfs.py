@@ -21,12 +21,12 @@ class ReadyForService(models.Model):
     # ----------------------------------------------------------
     description = fields.Text(string='Description')
     date = fields.Date(string='Date')
-    amount = fields.Monetary(string='Amount', currency_field='company_currency_id')
+    amount = fields.Monetary(string='Amount', currency_field='currency_id')
     sequence = fields.Integer(string='Sequence')
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    company_currency_id = fields.Many2one('res.currency', readonly=True,
+    currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
 

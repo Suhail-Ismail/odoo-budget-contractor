@@ -13,13 +13,13 @@ class VolumeDiscount(models.Model):
 
     # BASIC FIELDS
     # ----------------------------------------------------------
-    threshold = fields.Monetary(string='Threshold', currency_field='company_currency_id')
+    threshold = fields.Monetary(string='Threshold', currency_field='currency_id')
     sequence = fields.Integer(string='Sequence')
     discount_percentage = fields.Float(string='Discount Percent (%)', digits=(5, 2))
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    company_currency_id = fields.Many2one('res.currency', readonly=True,
+    currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
 

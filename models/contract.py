@@ -19,15 +19,15 @@ class Contract(models.Model):
                                   'noc', 'proxy cache', 'servers', 'softswitch', 'watchguard',
                                   'web filtering'], is_sorted=False)
 
-    cost_per_month = fields.Monetary(string='Cost per Month', currency_field='company_currency_id')
-    cost_per_year = fields.Monetary(string='Cost per Year', currency_field='company_currency_id')
+    cost_per_month = fields.Monetary(string='Cost per Month', currency_field='currency_id')
+    cost_per_year = fields.Monetary(string='Cost per Year', currency_field='currency_id')
     budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
     is_contract = fields.Boolean(string='Is Contract')
     is_rfq = fields.Boolean(string='Is RFQ')
     opex_service = fields.Selection(string='OPEX Service', selection=OPEX_SERVICES)
     category = fields.Selection(string='Category', selection=CATEGORIES)
     remarks = fields.Text(string='Remarks')
-    material_amount = fields.Monetary(string='Material Amount', currency_field='company_currency_id')
+    material_amount = fields.Monetary(string='Material Amount', currency_field='currency_id')
     end_date = fields.Date(string='End Date')
     year_count = fields.Integer(string='# of Years')
     support_percentage = fields.Float(string='Support Percentage', digits=(5, 2))
@@ -93,14 +93,14 @@ class Contract(models.Model):
     extended_warranty_count = fields.Integer(string='Extended Warranty # of Months')
     normal_warranty_count = fields.Integer(string='Normal Warranty # of Months')
 
-    amount = fields.Monetary(string='Contract Amount', currency_field='company_currency_id')
-    discount_amount = fields.Monetary(string='Discount Amount', currency_field='company_currency_id')
-    hardware_amount = fields.Monetary(string='Hardware Amount', currency_field='company_currency_id')
-    software_amount = fields.Monetary(string='Software Amount', currency_field='company_currency_id')
-    service_amount = fields.Monetary(string='Service Amount', currency_field='company_currency_id')
-    future_voucher_amount = fields.Monetary(string='Future Voucher Amount', currency_field='company_currency_id')
-    voucher_utilized_amount = fields.Monetary(string='Voucher Utilized Amount', currency_field='company_currency_id')
-    training_amount = fields.Monetary(string='Training Amount', currency_field='company_currency_id')
+    amount = fields.Monetary(string='Contract Amount', currency_field='currency_id')
+    discount_amount = fields.Monetary(string='Discount Amount', currency_field='currency_id')
+    hardware_amount = fields.Monetary(string='Hardware Amount', currency_field='currency_id')
+    software_amount = fields.Monetary(string='Software Amount', currency_field='currency_id')
+    service_amount = fields.Monetary(string='Service Amount', currency_field='currency_id')
+    future_voucher_amount = fields.Monetary(string='Future Voucher Amount', currency_field='currency_id')
+    voucher_utilized_amount = fields.Monetary(string='Voucher Utilized Amount', currency_field='currency_id')
+    training_amount = fields.Monetary(string='Training Amount', currency_field='currency_id')
 
     sign_date = fields.Date(string='Sign Date')
     commencement_date = fields.Date(string='Commencement Date')
@@ -108,7 +108,7 @@ class Contract(models.Model):
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    company_currency_id = fields.Many2one('res.currency', readonly=True,
+    currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     system_type_id = fields.Many2one('budget.contractor.contract.system.type', string='System Type')
     contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')

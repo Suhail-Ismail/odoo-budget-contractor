@@ -20,14 +20,14 @@ class Milestone(models.Model):
     sequence = fields.Integer(string='Sequence')
     month_count = fields.Integer(string='# of Months')
     date = fields.Date(string='Date')
-    amount = fields.Monetary(string='Amount', currency_field='company_currency_id')
+    amount = fields.Monetary(string='Amount', currency_field='currency_id')
 
     # TODO DEPRECATED or use as reference "CONTRACT AND MILESTONE"
     reference_no = fields.Char(string='Reference No')
 
     # RELATIONSHIPS
     # ----------------------------------------------------------
-    company_currency_id = fields.Many2one('res.currency', readonly=True,
+    currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
     actual_ids = fields.One2many('budget.contractor.milestone',
