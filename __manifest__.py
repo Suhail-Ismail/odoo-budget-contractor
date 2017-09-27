@@ -42,6 +42,7 @@ Contractor Management
         'views/contract.xml',
         'views/contractor.xml',
         'views/contractor_contact.xml',
+        'views/discount_rule.xml',
         'views/rfs.xml',
         'views/milestone.xml',
         'views/system_type.xml',

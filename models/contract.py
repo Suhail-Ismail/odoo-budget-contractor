@@ -24,6 +24,7 @@ class Contract(models.Model):
     budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
     is_contract = fields.Boolean(string='Is Contract')
     is_rfq = fields.Boolean(string='Is RFQ')
+    is_discount_applicable = fields.Boolean(string="Applicable Discount")
     opex_service = fields.Selection(string='OPEX Service', selection=OPEX_SERVICES)
     category = fields.Selection(string='Category', selection=CATEGORIES)
     remarks = fields.Text(string='Remarks')
@@ -33,7 +34,7 @@ class Contract(models.Model):
     support_percentage = fields.Float(string='Support Percentage', digits=(5, 2))
     maintenance_percentage = fields.Float(string='Maintenance Percentage', digits=(5, 2))
     spare_percentage = fields.Float(string='Spare Percentage', digits=(5, 2))
-    volume_discount_ref = fields.Char(string='Volume Discount Reference')
+    discount_ref = fields.Char(string='Volume Discount Reference')
     system_type = fields.Selection(string='System Type', selection=SYSTEM_TYPES)
 
     old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
@@ -106,10 +107,13 @@ class Contract(models.Model):
     commencement_date = fields.Date(string='Commencement Date')
     expiry_date = fields.Date(string='Expiry Date')
 
+    discount_rule_start_date = fields.Date()
+    discount_rule_stop_date = fields.Date()
+
     # RELATIONSHIPS
     # ----------------------------------------------------------
     currency_id = fields.Many2one('res.currency', readonly=True,
-                                          default=lambda self: self.env.user.company_id.currency_id)
+                                  default=lambda self: self.env.user.company_id.currency_id)
     system_type_id = fields.Many2one('budget.contractor.contract.system.type', string='System Type')
     contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')
     rfq_id = fields.Many2one('budget.contractor.rfq', string='RFQ',
@@ -125,6 +129,8 @@ class Contract(models.Model):
                                        'contract_id', 'sub_section_id',
                                        string="Sub Sections")
     voucher_utilized_from_contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
+    discount_rule_id = fields.Many2one('budget.contractor.discount.rule',
+                                        string="Discount Rule")
     rfs_ids = fields.One2many('budget.contractor.rfs',
                               'contract_id',
                               string="Ready for Service Certificates")
@@ -134,9 +140,13 @@ class Contract(models.Model):
     component_ids = fields.One2many('budget.contractor.component',
                                     'contract_id',
                                     string="Components")
-    volume_discount_ids = fields.One2many('budget.contractor.volume.discount',
-                                          'contract_id',
-                                          string="Volume Discounts")
+    discount_ids = fields.One2many('budget.contractor.discount',
+                                   'contract_id',
+                                   string="Volume Discounts")
+    # RELATED FIELDS
+    # ----------------------------------------------------------
+    discount_rule_description = fields.Text(related='discount_rule_id.description')
+    discount_rule_code = fields.Text(related='discount_rule_id.code')
 
     # COMPUTE FIELDS
     # ----------------------------------------------------------

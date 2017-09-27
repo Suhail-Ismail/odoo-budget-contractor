@@ -27,7 +27,7 @@
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <group groups="base.group_system">
+                                <group groups="base.group_no_one">
                                     <field name="is_record_lock"/>
                                 </group>
                                 <field name="contract_ref"/>
@@ -40,7 +40,7 @@
                                         <field name="contractor_id"
                                                options="{'no_quick_create': True, 'no_create': True}"/>
                                         <field name="old_contractor_id"
-                                               groups="base.group_system"
+                                               groups="base.group_no_one"
                                                options="{'no_quick_create': True, 'no_create': True}"/>
                                         <field name="no"/>
                                         <field name="year"/>
@@ -49,7 +49,7 @@
                                                attrs="{'invisible': [('change_type','not in',['addendum', 'amendment'])]}"/>
                                         <field name="url" widget="url"/>
                                         <field name="contract_type" required="1"/>
-                                        <field name="contract_scope" groups="base.group_system"/>
+                                        <field name="contract_scope" groups="base.group_no_one"/>
                                         <field name="payment_type" required="1"/>
                                         <field name="delivery_term" required="1"/>
                                         <field name="network_type" required="1"/>
@@ -64,8 +64,7 @@
                                         <field name="commencement_date"/>
                                         <field name="end_date"/>
                                         <field name="owner"/>
-                                        <field name="rfq_id"
-                                               options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="rfq_id" options="{'no_create': True, 'no_open': True}"/>
                                     </group>
 
                                 </group>
@@ -78,14 +77,14 @@
                                            options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                     <field name="old_section_ids"
                                            widget="many2many_tags"
-                                           groups="base.group_system"
+                                           groups="base.group_no_one"
                                            options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                     <field name="sub_section_ids"
                                            widget="many2many_tags"
                                            options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                     <field name="old_sub_section_ids"
                                            widget="many2many_tags"
-                                           groups="base.group_system"
+                                           groups="base.group_no_one"
                                            options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                 </group>
                                 <group>
@@ -112,8 +111,31 @@
                                     </group>
                                 </group>
                                 <group>
-                                    <field name="volume_discount_ref"/>
+                                    <field name="discount_ref"/>
                                 </group>
+                            </page>
+                            <page string="Discount">
+                                <group>
+                                    <group>
+                                        <field name="is_discount_applicable"/>
+                                    </group>
+                                </group>
+                                <group string="Rule Details" attrs="{'invisible': [('is_discount_applicable','=',False)]}">
+                                    <group>
+                                        <field name="discount_rule_id"
+                                               options="{'no_create': True, 'no_open': True}"
+                                               attrs="{'required': [('is_discount_applicable','=',True)]}"/>
+                                        <field name="discount_rule_description" string="Description" readonly="1"/>
+                                        <field name="discount_rule_code" string="Code" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="discount_rule_start_date" string="Start Date"
+                                               attrs="{'required': [('is_discount_applicable','=',True)]}"/>
+                                        <field name="discount_rule_stop_date" string="Stop Date"
+                                               attrs="{'required': [('is_discount_applicable','=',True)]}"/>
+                                    </group>
+                                </group>
+
                             </page>
                         </notebook>
 
@@ -124,7 +146,7 @@
                                     <form></form>
                                     <tree editable="bottom">
                                         <field name="contract_id"
-                                               groups="base.group_system"/>
+                                               groups="base.group_no_one"/>
                                         <field name="sequence" widget="handle"/>
                                         <field name="name" required="1"/>
                                         <field name="month_count"/>
@@ -139,7 +161,7 @@
                                     <form></form>
                                     <tree editable="bottom">
                                         <field name="contract_id"
-                                               groups="base.group_system"/>
+                                               groups="base.group_no_one"/>
                                         <field name="sequence" widget="handle"/>
                                         <field name="name" required="1"/>
                                         <field name="description"/>
@@ -154,22 +176,28 @@
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
                                         <field name="contract_id"
-                                               groups="base.group_system"/>
+                                               groups="base.group_no_one"/>
                                         <field name="description"/>
                                         <field name="date"/>
                                         <field name="amount" sum="1"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Volume Discounts">
-                                <field name="volume_discount_ids" context="{'default_contract_id': id}">
-                                    <form></form>
+                            <page string="Discounts"
+                                  attrs="{'invisible': [('is_discount_applicable','=',False)]}">
+                                <field name="discount_ids"
+                                       domain="[('discount_rule_id','=',1)]"
+                                       context="{'default_contract_id': id,
+                                                 'default_discount_rule_id': discount_rule_id}">
                                     <tree editable="bottom">
                                         <field name="sequence" widget="handle"/>
                                         <field name="contract_id"
-                                               groups="base.group_system"/>
+                                               groups="base.group_no_one"/>
+                                        <field name="discount_rule_id"
+                                               groups="base.group_no_one"/>
                                         <field name="threshold"/>
                                         <field name="discount_percentage"/>
+                                        <field name="is_default"/>
                                     </tree>
                                 </field>
                             </page>

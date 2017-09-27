@@ -69,7 +69,13 @@
         sequence="8"
         parent="menu_contractor_top"
         action="action_contract_system_type"
-        groups="base.group_system,base.group_no_one"/>
+        groups="base.group_no_one"/>
+    <menuitem
+        id="menu_discount_rule_top_left"
+        name="Discount Rule"
+        sequence="9"
+        parent="menu_contractor_top"
+        action="action_discount_rule"/>
     <!--END MENU CHILD-->
     </data>
 </odoo>
