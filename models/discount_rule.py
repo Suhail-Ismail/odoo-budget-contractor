@@ -16,20 +16,20 @@ class VolumeDiscountRule(models.Model):
     # ----------------------------------------------------------
     name = fields.Char(default=lambda r: r._get_name())
     description = fields.Text()
-    code = fields.Text()
+
     # RELATIONSHIPS
     # ----------------------------------------------------------
     contract_ids = fields.One2many('budget.contractor.contract',
                                    'discount_rule_id',
                                    string='Contract')
 
-    # discount_ids = fields.One2many('budget.contractor.discount',
-    #                                     'discount_rule_id',
-    #                                     string='Discount')
+    discount_ids = fields.One2many('budget.contractor.discount',
+                                        'discount_rule_id',
+                                        string='Discount')
 
     # DEFAULTS
-    @api.model
     # ----------------------------------------------------------
+    @api.model
     def _get_name(self):
         rule = self.search([], order='id desc', limit=1)
         if rule:
@@ -38,12 +38,11 @@ class VolumeDiscountRule(models.Model):
             sr = 1
         return 'Rule %03d' % sr
 
+    # COMPUTE FIELDS
+    # ----------------------------------------------------------
 
-        # COMPUTE FIELDS
-        # ----------------------------------------------------------
+    # CONSTRAINS FIELDS
+    # ----------------------------------------------------------
 
-        # CONSTRAINS FIELDS
-        # ----------------------------------------------------------
-
-        # BUTTON ACTIONS / TRANSITIONS
-        # ----------------------------------------------------------
+    # BUTTON ACTIONS / TRANSITIONS
+    # ----------------------------------------------------------

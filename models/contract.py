@@ -146,7 +146,6 @@ class Contract(models.Model):
     # RELATED FIELDS
     # ----------------------------------------------------------
     discount_rule_description = fields.Text(related='discount_rule_id.description')
-    discount_rule_code = fields.Text(related='discount_rule_id.code')
 
     # COMPUTE FIELDS
     # ----------------------------------------------------------

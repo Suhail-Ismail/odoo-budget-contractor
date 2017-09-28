@@ -126,7 +126,6 @@
                                                options="{'no_create': True, 'no_open': True}"
                                                attrs="{'required': [('is_discount_applicable','=',True)]}"/>
                                         <field name="discount_rule_description" string="Description" readonly="1"/>
-                                        <field name="discount_rule_code" string="Code" readonly="1"/>
                                     </group>
                                     <group>
                                         <field name="discount_rule_start_date" string="Start Date"
