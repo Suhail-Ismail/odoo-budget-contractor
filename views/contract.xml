@@ -128,9 +128,9 @@
                                         <field name="discount_rule_description" string="Description" readonly="1"/>
                                     </group>
                                     <group>
-                                        <field name="discount_rule_start_date" string="Start Date"
+                                        <field name="discount_rule_start_date" string="Validity Start Date"
                                                attrs="{'required': [('is_discount_applicable','=',True)]}"/>
-                                        <field name="discount_rule_stop_date" string="Stop Date"
+                                        <field name="discount_rule_stop_date" string="Validity End Date"
                                                attrs="{'required': [('is_discount_applicable','=',True)]}"/>
                                     </group>
                                 </group>

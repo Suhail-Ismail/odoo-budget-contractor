@@ -142,6 +142,7 @@ class Contract(models.Model):
                                     string="Components")
     discount_ids = fields.One2many('budget.contractor.discount',
                                    'contract_id',
+                                   copy=True,
                                    string="Volume Discounts")
     # RELATED FIELDS
     # ----------------------------------------------------------
@@ -199,3 +200,12 @@ class Contract(models.Model):
     def _compute_is_record_lock(self):
         lock_states = ['draft', 'under verification', 'contract signed']
         self.is_record_lock = True if self.state not in lock_states else False
+
+    # POLYMORPH FUNCTIONS
+    # ----------------------------------------------------------
+    @api.one
+    @api.returns('self', lambda value: value.id)
+    def copy(self, default=None):
+        default = dict(default or {})
+        default.update(no="(Copy) " + self.no)
+        return super(Contract, self).copy(default)

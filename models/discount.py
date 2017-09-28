@@ -14,7 +14,7 @@ class VolumeDiscount(models.Model):
     # BASIC FIELDS
     # ----------------------------------------------------------
     threshold = fields.Monetary(string='Threshold', currency_field='currency_id')
-    sequence = fields.Integer(string='Sequence')
+    sequence = fields.Integer(string='Sequence', default=1)
     discount_percentage = fields.Float(string='Discount Percent (%)', digits=(5, 2))
     is_default = fields.Boolean(string='Is Default')
 
@@ -23,6 +23,7 @@ class VolumeDiscount(models.Model):
     currency_id = fields.Many2one('res.currency', readonly=True,
                                           default=lambda self: self.env.user.company_id.currency_id)
     contract_id = fields.Many2one('budget.contractor.contract', string='Contract')
+    # TODO REMOVE THIS AS DISCOUNTS ARE PER CONTRACT NOT PER RULE
     discount_rule_id = fields.Many2one('budget.contractor.discount.rule', string='Discount Rule')
 
     # COMPUTE FIELDS
