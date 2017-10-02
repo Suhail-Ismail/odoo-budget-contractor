@@ -6,14 +6,15 @@ from odoo.addons.budget_utilities.models.utilities import choices_tuple
 class VolumeDiscount(models.Model):
     _name = 'budget.contractor.discount'
     _description = 'Volume Discount'
-    _order = 'threshold desc'
+    _order = 'min_threshold desc'
 
     # CHOICES
     # ----------------------------------------------------------
 
     # BASIC FIELDS
     # ----------------------------------------------------------
-    threshold = fields.Monetary(string='Threshold', currency_field='currency_id')
+    min_threshold = fields.Monetary(string='Minimum Threshold', currency_field='currency_id')
+    max_threshold = fields.Monetary(string='Maximum Threshold', currency_field='currency_id')
     sequence = fields.Integer(string='Sequence', default=1)
     discount_percentage = fields.Float(string='Discount Percent (%)', digits=(5, 2))
     is_default = fields.Boolean(string='Is Default')

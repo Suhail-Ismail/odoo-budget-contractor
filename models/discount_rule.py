@@ -14,6 +14,7 @@ class VolumeDiscountRule(models.Model):
 
     # BASIC FIELDS
     # ----------------------------------------------------------
+    active = fields.Boolean(default=True)
     name = fields.Char(default=lambda r: r._get_name())
     description = fields.Text()
 

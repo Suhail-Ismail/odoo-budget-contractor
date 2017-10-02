@@ -194,7 +194,8 @@
                                                groups="base.group_no_one"/>
                                         <field name="discount_rule_id"
                                                groups="base.group_no_one"/>
-                                        <field name="threshold"/>
+                                        <field name="min_threshold"/>
+                                        <field name="max_threshold"/>
                                         <field name="discount_percentage"/>
                                         <field name="is_default"/>
                                     </tree>
