@@ -5,7 +5,7 @@
 
 # BASIC MODELS
 # ----------------------------------------------------------
-from . import contractor, contractor_contact, contract, \
+from . import contractor, contract, \
     milestone, component, rfs, sicet, system_type, rfq, \
     discount, discount_rule
 

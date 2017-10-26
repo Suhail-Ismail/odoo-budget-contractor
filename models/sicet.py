@@ -10,5 +10,7 @@ class Sicet(models.Model):
 
     # BASIC FIELDS
     # ----------------------------------------------------------
+    active = fields.Boolean(default=True)
+
     name = fields.Char(string="Sicet Type")
     color = fields.Integer(string='Color Index')

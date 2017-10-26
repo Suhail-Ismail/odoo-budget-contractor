@@ -10,42 +10,6 @@ class Contract(models.Model):
     _description = 'Contract'
     _inherit = ['record.lock.mixin', 'mail.thread']
 
-    # TODO: TO BE REMOVE WHEN FINALIZED / DEPRECATED
-    # ----------------------------------------------------------
-    BUDGET_TYPES = choices_tuple(['capex', 'opex'])
-    OPEX_SERVICES = choices_tuple(['maintenance', 'spare', 'repair and return', 'support', 'managed service'])
-    CATEGORIES = choices_tuple(['consultancy', 'license', 'service', 'supply', 'support', 'turnkey'])
-    SYSTEM_TYPES = choices_tuple(['cloud', 'dwdm', 'gpon', 'load balancer', 'ngn', 'nms',
-                                  'noc', 'proxy cache', 'servers', 'softswitch', 'watchguard',
-                                  'web filtering'], is_sorted=False)
-
-    cost_per_month = fields.Monetary(string='Cost per Month', currency_field='currency_id')
-    cost_per_year = fields.Monetary(string='Cost per Year', currency_field='currency_id')
-    budget_type = fields.Selection(string='Budget Type', selection=BUDGET_TYPES)
-    is_contract = fields.Boolean(string='Is Contract')
-    is_rfq = fields.Boolean(string='Is RFQ')
-    is_discount_applicable = fields.Boolean(string="Applicable Discount")
-    opex_service = fields.Selection(string='OPEX Service', selection=OPEX_SERVICES)
-    category = fields.Selection(string='Category', selection=CATEGORIES)
-    remarks = fields.Text(string='Remarks')
-    material_amount = fields.Monetary(string='Material Amount', currency_field='currency_id')
-    end_date = fields.Date(string='End Date')
-    year_count = fields.Integer(string='# of Years')
-    support_percentage = fields.Float(string='Support Percentage', digits=(5, 2))
-    maintenance_percentage = fields.Float(string='Maintenance Percentage', digits=(5, 2))
-    spare_percentage = fields.Float(string='Spare Percentage', digits=(5, 2))
-    discount_ref = fields.Char(string='Volume Discount Reference')
-    system_type = fields.Selection(string='System Type', selection=SYSTEM_TYPES)
-
-    old_contractor_id = fields.Many2one('res.partner', string='Old Contractor',
-                                        domain=[('is_budget_contractor', '=', True)])
-    old_section_ids = fields.Many2many('res.partner', 'section_contract_rel', 'contract_id', 'section_id',
-                                       string="Old Sections")
-    old_sub_section_ids = fields.Many2many('res.partner', 'sub_section_contract_rel', 'contract_id', 'sub_section_id',
-                                           string="Old Sub Sections")
-    sicet_type_ids = fields.Many2many('budget.contractor.contract.sicet', 'sicet_contract_rel', 'contract_id',
-                                      'sicet_id', string='Sicet Type')
-
     # CHOICES
     # ----------------------------------------------------------
     STATES = choices_tuple(['draft', 'contract signed', 'on going', 'completed', 'cancelled', 'expired'],
@@ -66,12 +30,14 @@ class Contract(models.Model):
 
     # BASIC FIELDS
     # ----------------------------------------------------------
+    active = fields.Boolean(default=True)
     state = fields.Selection(string='State', selection=STATES, default='draft', track_visibility='onchange')
     network_type = fields.Selection(string='Network Type', selection=NETWORK_TYPES)
     network_layer = fields.Selection(string='Network Layer', selection=NETWORK_LAYERS)
 
     is_opex = fields.Boolean(string='Is Opex')
     is_capex = fields.Boolean(string='Is Capex')
+    is_discount_applicable = fields.Boolean(string="Applicable Discount")
 
     no = fields.Char(string="Contract No")
     change_type = fields.Selection(string='Change Type', selection=CHANGE_TYPES, default='principal')
@@ -83,7 +49,9 @@ class Contract(models.Model):
     delivery_term = fields.Selection(string='Delivery Term', selection=DELIVERY_TERMS)
     vendor_base = fields.Selection(string='OPEX Service', selection=VENDOR_BASES, default='local')
     url = fields.Char(string='Contract URL')
+
     year = fields.Char(string="Year")
+    year_count = fields.Integer(string='# of Years')
 
     owner = fields.Char(string='Owner')
 
@@ -105,8 +73,9 @@ class Contract(models.Model):
 
     sign_date = fields.Date(string='Sign Date')
     commencement_date = fields.Date(string='Commencement Date')
-    expiry_date = fields.Date(string='Expiry Date')
+    end_date = fields.Date(string='End Date')
 
+    discount_ref = fields.Char(string='Volume Discount Reference')
     discount_rule_start_date = fields.Date()
     discount_rule_stop_date = fields.Date()
 
@@ -116,6 +85,9 @@ class Contract(models.Model):
                                   default=lambda self: self.env.user.company_id.currency_id)
     system_type_id = fields.Many2one('budget.contractor.contract.system.type', string='System Type')
     contractor_id = fields.Many2one('budget.contractor.contractor', string='Contractor')
+    sicet_ids = fields.Many2many('budget.contractor.contract.sicet', 'budget_sicet_contract_rel',
+                                   'contract_id', 'sicet_id',
+                                   string="Sicets")
     rfq_id = fields.Many2one('budget.contractor.rfq', string='RFQ',
                              domain="[('contract_ids','=',False)]")
     division_ids = fields.Many2many('budget.enduser.division', 'budget_division_contract_rel',

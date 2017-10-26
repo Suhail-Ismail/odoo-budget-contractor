@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Contractor",
-    'version': '0.1',
+    'version': '11.0.0.1',
     'summary': 'Contractor Management',
     'sequence': 2,
     'description': """
@@ -29,6 +29,7 @@ Contractor Management
     'website': "https://github.com/mpdevilleres",
     'category': 'TBPC Budget',
     'depends': [
+        'mail',
         'budget_utilities',
         'budget_enduser'
     ],
@@ -41,11 +42,11 @@ Contractor Management
         'views/rfq.xml',
         'views/contract.xml',
         'views/contractor.xml',
-        'views/contractor_contact.xml',
         'views/discount_rule.xml',
         'views/rfs.xml',
         'views/milestone.xml',
         'views/system_type.xml',
+        'views/sicet.xml',
 
         # VIEW INHERIT
         'views/milestone_inherit_actual.xml',

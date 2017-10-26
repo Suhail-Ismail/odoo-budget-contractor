@@ -9,7 +9,8 @@
             <field name="model">budget.contractor.contract.sicet</field>
             <field name="arch" type="xml">
                 <tree editable="bottom">
-                    <field name="name"/>
+                    <field name="name" required="1"/>
+                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -22,6 +23,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_tree_contract_sicet"/>
+            <field name="context">{'active_test': False}</field>
         </record>
         <!--END ACTION-->
     </data>

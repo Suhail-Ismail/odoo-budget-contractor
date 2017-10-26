@@ -1,9 +1,0 @@
-id,name,alias,is_budget_contractor,is_budget_contractor_contact,contractor_contact_contractor_id:id
-contractor_tasc,Tasc Outsourcing,TASC,TRUE,,
-contractor_huawei,Huawei,HUAWEI,TRUE,,
-contractor_reach,Reach,REACH,TRUE,,
-contractor_contact_1,Ahmed,Ahmed,,TRUE,contractor_tasc
-contractor_contact_2,Farook,Farook,,TRUE,contractor_huawei
-contractor_contact_3,Mohamed,Mohamed,,TRUE,contractor_reach
-contractor_contact_4,Faisal,Faisal,,TRUE,contractor_tasc
-contractor_contact_5,Assad,Assad,,TRUE,contractor_huawei

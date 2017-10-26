@@ -11,7 +11,7 @@ class Contract(models.Model):
 
     # BASIC FIELDS
     # ----------------------------------------------------------
-    active = fields.Boolean(default=True) # odoo internal feature, if True it will be shown by default, if False it is hidden
+    active = fields.Boolean(default=True)
 
     name = fields.Char(string="Name")
 

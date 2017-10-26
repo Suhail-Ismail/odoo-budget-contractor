@@ -19,14 +19,20 @@
                                     help="Required Verification">
                                 <field name="contract_count" widget="statinfo" string="Contracts"/>
                             </button>
-
+                            <button class="oe_stat_button" type="object"
+                                    groups="base.group_no_one"
+                                    name="toggle_active" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                options='{"terminology": "archive"}'/>
+                            </button>
                         </div>
                         <div class="oe_title">
-                            <group groups="base.group_system">
-                                <field name="partner_id"/>
+                            <group groups="base.group_no_one">
+                                <field name="partner_id" readonly="1" required="0"
+                                       attrs="{'invisible': [('id', '=', False)]}"/>
                             </group>
                             <h1>
-                                <field name="name" default_focus="1" placeholder="Name"/>
+                                <field name="name" required="1" default_focus="1" placeholder="Division"/>
                             </h1>
                         </div>
                         <group>
@@ -43,61 +49,6 @@
                             <group>
                             </group>
                         </group>
-                        <notebook colspan="4">
-                            <page string="Contacts">
-                                <field name="contact_ids" mode="kanban">
-                                    <kanban>
-                                        <field name="name"/>
-                                        <field name="function"/>
-                                        <field name="email"/>
-                                        <templates>
-                                            <t t-name="kanban-box">
-                                                <div class="oe_kanban_global_click o_res_partner_kanban">
-                                                    <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
-                                                    <div class="o_kanban_image">
-                                                        <img t-att-src="_s + &quot;/base/static/src/img/avatar.png&quot;"/>
-                                                    </div>
-                                                    <div class="oe_kanban_details">
-                                                        <div>
-                                                            <strong>
-                                                                <field name="name"/>
-                                                            </strong>
-                                                        </div>
-                                                        <div>
-                                                            <field name="email"/>
-                                                        </div>
-                                                        <div>
-                                                            <field name="function"/>
-                                                        </div>
-                                                        <div>
-                                                            <field name="phone"/>
-                                                        </div>
-                                                        <div>
-                                                            <field name="mobile"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </t>
-                                        </templates>
-                                    </kanban>
-                                    <form>
-                                        <sheet>
-                                            <group>
-                                                <group>
-                                                    <field name="name"/>
-                                                    <field name="email"/>
-                                                </group>
-                                                <group>
-                                                    <field name="function"/>
-                                                    <field name="phone"/>
-                                                    <field name="mobile"/>
-                                                </group>
-                                            </group>
-                                        </sheet>
-                                    </form>
-                                </field>
-                            </page>
-                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -112,7 +63,6 @@
                 <tree>
                     <field name="name"/>
                     <field name="alias"/>
-                    <field name="state"/>
                 </tree>
             </field>
         </record>
