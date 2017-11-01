@@ -59,6 +59,13 @@
         <!--action="action_actual_rfs"/>-->
     <menuitem
         id="menu_discount_rule_top_left"
+        name="Discount"
+        sequence="9"
+        parent="menu_contractor_top"
+        action="action_discount"
+        groups="base.group_no_one"/>
+    <menuitem
+        id="menu_discount_rule_top_left"
         name="Discount Rule"
         sequence="9"
         parent="menu_contractor_top"
