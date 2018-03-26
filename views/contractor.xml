@@ -32,7 +32,7 @@
                                        attrs="{'invisible': [('id', '=', False)]}"/>
                             </group>
                             <h1>
-                                <field name="name" required="1" default_focus="1" placeholder="Division"/>
+                                <field name="name" required="1" default_focus="1" placeholder="Name"/>
                             </h1>
                         </div>
                         <group>
